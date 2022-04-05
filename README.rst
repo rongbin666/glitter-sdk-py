@@ -1,5 +1,5 @@
 
-:Info: See `our website`_  for more information. See `glitter-sdk-py`_ for the latest source..
+:Info: See `our website`_  for more information. See `glitter-sdk-py`_ for the latest source.
 :Documentation: Available at `glitter-sdk-py.readthedocs.io`_
 :Author: Glitter Protocol
 
