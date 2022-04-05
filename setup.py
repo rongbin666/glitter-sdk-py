@@ -34,9 +34,9 @@ docs_require = [
     'sphinxcontrib-httpdomain',
 ]
 setup(
-    name='glitter_sdk_test',
+    name='glitter_sdk',
     version='0.1.0',
-    author='ted',
+    author='Glitter Protocol',
     author_email='ted@glitterprotocol.io',
     url='https://docs.glitterprotocol.io/',
     description=u'Glitter Protocol is a blockchain based database and index engine for developing and hosting web3 applications in decentralized storage networks.',

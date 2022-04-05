@@ -1,7 +1,7 @@
 
-:Info: See `the glitter site`_  for more information. See `glitter-sdk-py`_ for the latest source.
-:Documentation: Available at `glitter-sdk.readthedocs.io`_
-:Author: ted
+:Info: See `our website`_  for more information. See `glitter-sdk-py`_ for the latest source..
+:Documentation: Available at `glitter-sdk-py.readthedocs.io`_
+:Author: Glitter Protocol
 
 .. contents:: Table of Contents
 
@@ -61,10 +61,8 @@ If you’d rather install directly from the source (i.e. to stay on the bleeding
     $ python3 setup.py install
 
 
-.. _glitter: https://glitterprotocol.io/
-.. _Python Package Index: https://pypi.org/project/glitter_sdk/
-.. _pip: https://pypi.org/project/pip/
-
-.. _glitter-sdk.readthedocs.io: https://glitter-sdk.readthedocs.io/en/latest
-.. _the glitter site: https://glitterprotocol.io
+.. _our website: https://glitterprotocol.io
 .. _glitter-sdk-py: https://github.com/glitternetwork/glitter-sdk-py
+.. _glitter-sdk-py.readthedocs.io: https://glitter-sdk-py.readthedocs.io/en/latest/index.html
+.. _pip: https://pypi.org/project/pip/
+.. _Python Package Index: https://pypi.org/project/glitter_sdk/
