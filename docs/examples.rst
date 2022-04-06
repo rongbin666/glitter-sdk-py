@@ -79,14 +79,14 @@ if the schema all ready exist, the return like:
       "message": "schema already exist: schema_name=demo",
     }
 
-Check Schema
+Show Schema
 ------------------------
 
 get schema by name.
 
 .. code-block:: python
 
-    res = self.glitter_client.db.show_schema("demo")
+    res = glitter_client.db.show_schema("demo")
 
 if success:
 
@@ -181,7 +181,7 @@ For example:
         "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
         "ipfs_cid": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte"
     }
-    res = self.glitter_client.db.put_doc(self.schema_name, demo_doc)
+    res = glitter_client.db.put_doc(schema_name, demo_doc)
 
 if put_doc success, the return like:
 
@@ -243,7 +243,7 @@ The search is the standard query for performing a full-text search, including op
 
     query_word = "British Steel Corporation"
     query_field = ["title"]
-    res = self.glitter_client.db.search(self.schema_name, query_word, query_field)
+    res = glitter_client.db.search(schema_name, query_word, query_field)
 
 the hit result like:
 
@@ -285,7 +285,7 @@ App Status
 
 .. code-block:: python
 
-    res = self.glitter_client.db.app_status()
+    res = glitter_client.db.app_status()
     #
     {
         "code": 0,
