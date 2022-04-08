@@ -86,7 +86,7 @@ get schema by name.
 
 .. code-block:: python
 
-    res = glitter_client.db.show_schema("demo")
+    res = glitter_client.db.get_schema("demo")
 
 if success:
 

@@ -56,8 +56,8 @@ class GlitterClientUnitTest(unittest.TestCase):
         # self.assertEqual(res['code'], 0)
         print(res)
 
-    def test_show_schema(self):
-        res = self.glitter_client.db.show_schema(self.schema_name)
+    def test_get_schema(self):
+        res = self.glitter_client.db.get_schema(self.schema_name)
         print(res)
 
     def test_list_schema(self):

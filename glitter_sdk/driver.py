@@ -134,7 +134,7 @@ class DataBase(NamespacedDriver):
             path=self.api_prefix + path,
         )
 
-    def show_schema(self, schema_name):
+    def get_schema(self, schema_name):
         """
 
         Args:
@@ -185,12 +185,29 @@ class DataBase(NamespacedDriver):
             json=body,
         )
 
+    def get_doc(self, schema_name, primary_key):
+        """Get documents from glitter by doc ids.
+
+        Args:
+            schema_name(str): the name of schema.
+            primary_key: main key of document,must be uniq.
+
+        Returns:
+            :obj:`dic`: result with the document struct.
+        """
+        path = '/get_docs'
+        return self.transport.forward_request(
+            method='POST',
+            path=self.api_prefix + path,
+            json={"schema_name": schema_name, "doc_ids": [primary_key]},
+        )
+
     def get_docs(self, schema_name, primary_key):
         """Get documents from glitter by doc ids.
 
         Args:
             schema_name(str): the name of schema.
-            primary_key(list of str): main key of document,must be uniq.
+            primary_key(list): main key of documents,must be uniq.
 
         Returns:
             :obj:`dic`: result with the document struct.
