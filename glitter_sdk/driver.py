@@ -164,12 +164,12 @@ class DataBase(NamespacedDriver):
             path=self.api_prefix + path,
         )
 
-    def put_doc(self, schema_name, doc_value):
+    def put_doc(self, schema_name, doc_data):
         """Put document to glitter.
 
         Args:
             - schema_name(str): the name of schema.
-            - doc_value(:obj:`dic`): doc content.
+            - doc_data(:obj:`dic`): doc content.
 
         Returns:
             - :obj:`dic`: result with code,msg,tx.
