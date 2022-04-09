@@ -142,12 +142,12 @@ class DataBase(NamespacedDriver):
         Returns:
             - :obj:`dic`: result with document schema.
         """
-        path = '/show_schema'
+        path = '/get_schema'
 
         return self.transport.forward_request(
             method='GET',
             path=self.api_prefix + path,
-            params={"schema_name": schema_name}
+            params={"get_schema": schema_name}
         )
 
     def app_status(self):
@@ -177,7 +177,7 @@ class DataBase(NamespacedDriver):
         path = '/put_doc'
         body = {
             "schema_name": schema_name,
-            "doc_data": doc_value,
+            "doc_data": doc_data,
         }
         return self.transport.forward_request(
             method='POST',
