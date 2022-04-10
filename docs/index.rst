@@ -6,9 +6,10 @@ Welcome to glitter_sdk's documentation!
 
    ← glitternetwork <https://glitterprotocol.io/>
    install
+   quickstart
    examples
    libref
-   quickstart
+
 
 
 
