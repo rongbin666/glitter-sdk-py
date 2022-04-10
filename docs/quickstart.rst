@@ -4,7 +4,7 @@
 Quickstart
 ====================
 
-Simple introduction to giltter.
+Simple introduction to glitter.
 
 1.Connection
 ---------------
@@ -169,5 +169,5 @@ search rss data. same as the `search web page`_.
 
 
 .. _tx info: http://sg6.testnet.glitter.link:8000/txs?txID=8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01
-.. _search web page: http://sg6.testnet.glitter.link:8100/search?q=oppo&index=rss
+.. _search web page: https://search.testnet.glitterprotocol.io/
 .. _schema info: https://scan.testnet.glitterprotocol.io/txs/D4D9F93B60770952A33BD3C7A8C0F70A72CB78F800AD1C100CA73EBCF2825BDC
