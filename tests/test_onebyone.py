@@ -24,7 +24,7 @@ class GlitterClientUnitTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        url = 'http://sg2.testnet.glitter.link:26659'
+        url = 'http://sg1.testnet.glitter.link:26659'
         cls.glitter_client = GlitterClient(url)
 
     def test_create_schema(self):
@@ -90,12 +90,12 @@ class GlitterClientUnitTest(unittest.TestCase):
     def test_search(self):
         query_word = "British Steel Corporation"
         query_field = ["doi", "title"]
-        res = self.glitter_client.db.search(self.schema_name, query_word, query_field)
+        res = self.glitter_client.db.search("xx", query_word, query_field)
         print(res)
         # self.assertEqual(res["code"], 0)
         # self.assertGreaterEqual(res["data"]["meta"]["page"]["size"], 1)
 
-    def test_search(self):
+    def test_search2(self):
         ''' First, put  documents:
             {
                 "doi": "doi_1",
@@ -134,6 +134,10 @@ class GlitterClientUnitTest(unittest.TestCase):
 
     def test_block(self):
         res = self.glitter_client.chain.block_search(query="block.height = 17835")
+        print(res)
+
+    def test_others(self):
+        res = self.glitter_client.db.search("sample", "Content Indexing Network")
         print(res)
 
 if __name__ == '__main__':

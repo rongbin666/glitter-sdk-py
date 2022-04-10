@@ -219,7 +219,7 @@ class DataBase(NamespacedDriver):
             json={"schema_name": schema_name, "doc_ids": primary_key},
         )
 
-    def search(self, index, query_word, query_field, filters=[], aggs_field=[], order_by="", limit=10, page=1):
+    def search(self, index, query_word, query_field=[], filters=[], aggs_field=[], order_by="", limit=10, page=1):
         """ search from glitter,with more args.
 
         Args:

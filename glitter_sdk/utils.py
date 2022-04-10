@@ -12,7 +12,7 @@ Attributes:
 from urllib.parse import urlparse, urlunparse
 
 DEFAULT_NODE = 'http://sg1.testnet.glitter.link:26659'
-DEFAULT_NODES = ['http://sg1.testnet.glitter.link:26659', 'http://sg2.testnet.glitter.link:26659',
+DEFAULT_NODES = [ 'http://sg1.testnet.glitter.link:26659','http://sg2.testnet.glitter.link:26659',
                  'http://sg3.testnet.glitter.link:26659', 'http://sg4.testnet.glitter.link:26659',
                  'http://sg5.testnet.glitter.link:26659']
 

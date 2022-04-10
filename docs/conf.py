@@ -40,6 +40,7 @@ extensions = [
     'sphinxcontrib.httpdomain',
     'IPython.sphinxext.ipython_console_highlighting',
     'IPython.sphinxext.ipython_directive',
+    'sphinx_tabs.tabs',
 ]
 # -- Options for HTML output ----------------------------------------------
 # Add any paths that contain templates here, relative to this directory.

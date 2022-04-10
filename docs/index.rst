@@ -8,6 +8,7 @@ Welcome to glitter_sdk's documentation!
    install
    examples
    libref
+   quickstart
 
 
 
