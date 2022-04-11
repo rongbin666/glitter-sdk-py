@@ -10,7 +10,7 @@ class GlitterClient:
 
     """
 
-    def __init__(self, *nodes, headers=None, transport_class=Transport, timeout=20):
+    def __init__(self, *nodes, headers=None, transport_class=Transport, timeout=10):
         """Initialize a :class:`~driver.GlitterClient` driver instance.
 
         Args:
@@ -147,7 +147,7 @@ class DataBase(NamespacedDriver):
         return self.transport.forward_request(
             method='GET',
             path=self.api_prefix + path,
-            params={"get_schema": schema_name}
+            params={"schema_name": schema_name}
         )
 
     def app_status(self):

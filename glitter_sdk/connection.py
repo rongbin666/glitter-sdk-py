@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 
 from requests import Session
 from requests.exceptions import ConnectionError
+from requests.exceptions import RequestException
 
 from .exceptions import HTTP_EXCEPTIONS, TransportError,TimeoutError
 
@@ -90,7 +91,10 @@ class Connection:
                 headers=headers,
                 **kwargs,
             )
-        except ConnectionError as err:
+        except RequestException as err:
+            connExc = err
+            raise err
+        except TransportError as err:
             connExc = err
             raise err
         finally:

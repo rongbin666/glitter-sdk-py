@@ -20,12 +20,12 @@ from glitter_sdk import GlitterClient
 
 class GlitterClientUnitTest(unittest.TestCase):
     glitter_client: GlitterClient
-    schema_name = "demo"
+    schema_name = "sample"
 
     @classmethod
     def setUpClass(cls):
         url = 'http://sg1.testnet.glitter.link:26659'
-        cls.glitter_client = GlitterClient(url)
+        cls.glitter_client = GlitterClient()
 
     def test_create_schema(self):
         fields = [
@@ -137,8 +137,16 @@ class GlitterClientUnitTest(unittest.TestCase):
         print(res)
 
     def test_others(self):
-        res = self.glitter_client.db.search("sample", "Content Indexing Network")
-        print(res)
+        # res = self.glitter_client.db.search("sample", "Content Indexing Network")
+        # print(res)
+        for i in range(1, 100):
+            try:
+                res = self.glitter_client.db.get_schema(self.schema_name)
+                print(res)
+            except Exception as e:
+                print(e)
+                continue
+
 
 if __name__ == '__main__':
     unittest.main()

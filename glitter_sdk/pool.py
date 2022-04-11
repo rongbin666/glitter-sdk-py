@@ -1,7 +1,7 @@
 # Copyright GlitterClient GmbH and GlitterClient contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
-
+import random
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
 
@@ -45,10 +45,10 @@ class RoundRobinPicker(AbstractPicker):
             return connections[0]
 
         def key(conn):
-            return (datetime.min
+            ms = random.randrange(0, 1000)
+            return (datetime(1, 1, 1, 0, 0, 0, ms)
                     if conn.backoff_time is None
                     else conn.backoff_time)
-
         return min(*connections, key=key)
 
 
