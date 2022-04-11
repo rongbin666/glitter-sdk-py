@@ -8,7 +8,7 @@ Simple introduction to glitter.
 
 1.Connection
 ---------------
-connect glitternetwork use a client
+Connect Glitter network using glitter_sdk package.
 
 .. code-block:: python
 
@@ -18,7 +18,7 @@ connect glitternetwork use a client
 2.Data model
 ------------------------
 In the example below we create a schema which is used to describe data model.
-After create success,check the detail of `schema info`_ .
+After creation success, you will be able to check the detail of schema info `here <https://scan.testnet.glitterprotocol.io/txs/D4D9F93B60770952A33BD3C7A8C0F70A72CB78F800AD1C100CA73EBCF2825BDC>`__.
 
 .. tabs::
 
@@ -82,9 +82,10 @@ After create success,check the detail of `schema info`_ .
 
 3.Put doc
 ------------------------
-After put success,check the detail of `tx info`_ .
+Once the put_doc success, you will be able to see the details of tx `here <http://sg6.testnet.glitter.link:8000/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
 
 .. tabs::
+
     .. tab:: Code
 
         .. code-block:: python
@@ -106,9 +107,10 @@ After put success,check the detail of `tx info`_ .
 
 4.Search
 ------------------------
-perform a full-text search
+Performing a full-text search.
 
 .. tabs::
+
     .. tab:: Code
 
         .. code-block:: python
@@ -153,7 +155,7 @@ perform a full-text search
 
 5.Another search example
 ------------------------
-search rss data. same as the `search web page`_.
+Below is an example for searching rss data.
 
 .. code-block:: python
 
@@ -166,8 +168,3 @@ search rss data. same as the `search web page`_.
     # search interesting content by tags
     client.db.search("rss", "Mobile", ['tags'])
 
-
-
-.. _tx info: http://sg6.testnet.glitter.link:8000/txs?txID=8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01
-.. _search web page: https://search.testnet.glitterprotocol.io/
-.. _schema info: https://scan.testnet.glitterprotocol.io/txs/D4D9F93B60770952A33BD3C7A8C0F70A72CB78F800AD1C100CA73EBCF2825BDC
