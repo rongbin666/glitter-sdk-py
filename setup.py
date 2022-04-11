@@ -32,10 +32,11 @@ docs_require = [
     'sphinxcontrib-napoleon>=0.4.4',
     'sphinx_rtd_theme',
     'sphinxcontrib-httpdomain',
+    'sphinx-tabs',
 ]
 setup(
     name='glitter_sdk',
-    version='0.1.0',
+    version='0.1.1',
     author='Glitter Protocol',
     author_email='ted@glitterprotocol.io',
     url='https://docs.glitterprotocol.io/',

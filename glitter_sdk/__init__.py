@@ -9,4 +9,4 @@ from .driver import GlitterClient   # noqa
 __author__ = 'ted'
 __email__ = 'ted@glitterprotocol.io'
 __version__ = '0.1'
-__release__ = '0.1.0'
+__release__ = '0.1.1'
