@@ -33,7 +33,7 @@ First, create a schema for documents.
     schema_name="demo"
     fields = [
         {
-            "name": "doi",
+            "name": "digit_object_id",
             "type": "string",
             "primary": "true",
             "index": {
@@ -48,7 +48,7 @@ First, create a schema for documents.
             }
         },
         {
-            "name": "ipfs_cid",
+            "name": "ipfs_content_id",
             "type": "string",
             "index": {
                 "index": "false"
@@ -56,7 +56,7 @@ First, create a schema for documents.
         }
     ]
     res = glitter_client.db.create_schema(schema_name, fields)
-    # result like this
+    # return
     {
         "code": 0,
         "message": "ok",
@@ -68,18 +68,18 @@ First, create a schema for documents.
 
 Put Document to Glitter
 --------------------------------
-Then, put a document glitter by glitter-sdk.
+Then, put a document into Glitter Protocol.
 For example:
 
 .. code-block:: python
 
     demo_doc = {
-        "doi": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
+        "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
         "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
-        "ipfs_cid": "https://ipfs.io/ipfs/bafybeicoccgasbfx3puk5fxfol6gnbsaj7ssqs5gmhggotpx52p4pb6oze/6dbc6bb3e4993915f5ca07ca854ac31c.pdf"
+        "ipfs_content_id": "https://ipfs.io/ipfs/bafybeicoccgasbfx3puk5fxfol6gnbsaj7ssqs5gmhggotpx52p4pb6oze/6dbc6bb3e4993915f5ca07ca854ac31c.pdf"
     }
     res = self.glitter_client.db.put_doc(self.schema_name, demo_doc)
-    # return like this, the tx is transaction id.
+    # return
     {
       "code": 0,
       "message": "ok",
@@ -88,7 +88,7 @@ For example:
     }
 
 
-Simple Search
+Search in the schema
 -------------------------------------------------
 Now, you can search.
 
@@ -120,8 +120,8 @@ Now, you can search.
                 },
                 "data": {
                     "_schema_name": "demo",
-                    "doi": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-                    "ipfs_cid": "https://ipfs.io/ipfs/bafybeicoccgasbfx3puk5fxfol6gnbsaj7ssqs5gmhggotpx52p4pb6oze/6dbc6bb3e4993915f5ca07ca854ac31c.pdf",
+                    "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
+                    "ipfs_content_id": "https://ipfs.io/ipfs/bafybeicoccgasbfx3puk5fxfol6gnbsaj7ssqs5gmhggotpx52p4pb6oze/6dbc6bb3e4993915f5ca07ca854ac31c.pdf",
                     "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history"
                 }
             }],

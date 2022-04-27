@@ -18,7 +18,7 @@ Connect Glitter network using glitter_sdk package.
 2.Data model
 ------------------------
 In the example below we create a schema which is used to describe data model.
-After creation success, you will be able to check the detail of schema info `here <https://scan.testnet.glitterprotocol.io/txs/D4D9F93B60770952A33BD3C7A8C0F70A72CB78F800AD1C100CA73EBCF2825BDC>`__.
+After creation success, you will be able to check the detail of the schema info `here <https://scan.testnet.glitterprotocol.io/txs/D4D9F93B60770952A33BD3C7A8C0F70A72CB78F800AD1C100CA73EBCF2825BDC>`__.
 
 .. tabs::
 
@@ -26,7 +26,7 @@ After creation success, you will be able to check the detail of schema info `her
 
         .. code-block:: python
 
-            # create schema with a url and title
+            # Create a schema with a url and title.
             schema = [
                 {
                     "name": "url",
@@ -45,7 +45,7 @@ After creation success, you will be able to check the detail of schema info `her
                 }
             ]
             res = client.db.create_schema("sample", schema)
-            # get the schema you create
+            # Get the schema you create.
             client.db.get_schema("sample")
 
 
@@ -82,7 +82,8 @@ After creation success, you will be able to check the detail of schema info `her
 
 3.Put doc
 ------------------------
-Once the put_doc success, you will be able to see the details of tx `here <http://sg6.testnet.glitter.link:8000/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
+Put_doc is used to insert a record into the schema you created earlier.
+Once success, you will be able to see the details of the transaction `here <http://sg6.testnet.glitter.link:8000/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
 
 .. tabs::
 
@@ -98,7 +99,7 @@ Once the put_doc success, you will be able to see the details of tx `here <http:
     .. tab:: Output
 
         .. code-block:: python
-
+            # tx is the transaction ID.
             {
               "code": 0,
               "message": "ok",
@@ -107,7 +108,7 @@ Once the put_doc success, you will be able to see the details of tx `here <http:
 
 4.Search
 ------------------------
-Performing a full-text search.
+Performing a full-text search which allows you to search for query_word the index.
 
 .. tabs::
 
@@ -116,7 +117,7 @@ Performing a full-text search.
         .. code-block:: python
 
             # search doc
-            search_res = client.db.search("sample", "Content Indexing Network")
+            search_res = client.db.search(index="sample", query_word="Content Indexing Network")
 
     .. tab:: Output
 
@@ -153,18 +154,19 @@ Performing a full-text search.
                 }
             }
 
-5.Another search example
+5. Other search examples
 ------------------------
-Below is an example for searching rss data.
+Below is a list of examples for searching data in rss.
 
 .. code-block:: python
 
-    # standard query for performing a full-text search
-    client.db.search("rss", "oppo")
-    # only search title
-    client.db.search("rss", "oppo", ['title'])
-    # aggregation by tags
-    client.db.search("rss", "oppo", ['title', 'description'], filters=[], aggs_field=["tags"])
-    # search interesting content by tags
-    client.db.search("rss", "Mobile", ['tags'])
+    # Standard query for performing a full-text search.
+    client.db.search(index="rss", query_word="oppo")
+    # Search 'oppo' in the 'title' query_field.
+    client.db.search(index="rss", query_word="oppo", query_field=['title'])
+    # Search 'Mobile' in the 'tags' query_field.
+    client.db.search(index="rss", query_word="Mobile", query_field=['tags'])
+    # Aggregate search result by the "tags" field defined in the schema.
+    client.db.search(index="rss", query_word="oppo", query_field=['title', 'description'], filters=[],
+                     aggs_field=["tags"])
 

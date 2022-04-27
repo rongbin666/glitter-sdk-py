@@ -35,7 +35,7 @@ Create Schema
     schema_name="demo"
     fields = [
         {
-            "name": "doi",
+            "name": "digit_object_id",
             "type": "string",
             "primary": "true",
             "index": {
@@ -50,7 +50,7 @@ Create Schema
             }
         },
         {
-            "name": "ipfs_cid",
+            "name": "ipfs_content_id",
             "type": "string",
             "index": {
                 "index": "false"
@@ -60,7 +60,7 @@ Create Schema
     res = glitter_client.db.create_schema(schema_name, fields)
     print(res)
 
-if create schema success, the return like:
+If the schema is created successfully, the return would be:
 
 .. code-block:: json
 
@@ -70,7 +70,7 @@ if create schema success, the return like:
         "tx": "B88CEA8172F0B8BD7EAC3021C1B347786F74EDCD9110A7525C61237CD91FCE73",
     }
 
-if the schema all ready exist, the return like:
+If the schema already exists, the return would be:
 
 .. code-block:: json
 
@@ -82,7 +82,7 @@ if the schema all ready exist, the return like:
 Show Schema
 ------------------------
 
-get schema by name.
+Get schema by name.
 
 .. code-block:: python
 
@@ -100,7 +100,7 @@ if success:
                 "index": {
                     "type": "keyword"
                 },
-                "name": "doi",
+                "name": "digit_object_id",
                 "primary": "true",
                 "type": "string"
             }, {
@@ -113,7 +113,7 @@ if success:
                 "index": {
                     "index": "false"
                 },
-                "name": "ipfs_cid",
+                "name": "ipfs_content_id",
                 "type": "string"
             }],
             "name": "demo",
@@ -130,7 +130,7 @@ otherwise:
         "message": "SchemaNotExist",
     }
 
-List All Schema
+List All Schemas
 ------------------------
 
 .. code-block:: python
@@ -146,7 +146,7 @@ List All Schema
                     "index": {
                         "type": "keyword"
                     },
-                    "name": "doi",
+                    "name": "digit_object_id",
                     "primary": "true",
                     "type": "string"
                 }, {
@@ -159,7 +159,7 @@ List All Schema
                     "index": {
                         "index": "false"
                     },
-                    "name": "ipfs_cid",
+                    "name": "ipfs_content_id",
                     "type": "string"
                 }],
                 "name": "demo",
@@ -171,19 +171,19 @@ List All Schema
 
 Put Document to Glitter
 --------------------------------
-define a document and put it to glitter
+Define a document and put it to Glitter Protocol.
 For example:
 
 .. code-block:: python
 
     demo_doc = {
-        "doi": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
+        "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
         "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
-        "ipfs_cid": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte"
+        "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte"
     }
     res = glitter_client.db.put_doc(schema_name, demo_doc)
 
-if put_doc success, the return like:
+If doc is put into Glitter Protocol successfully, the return would be:
 
 .. code-block:: json
 
@@ -194,7 +194,7 @@ if put_doc success, the return like:
     }
 
 
-if fails, the return may be like:
+Otherwise, the return may be like:
 
 .. code-block:: json
 
@@ -204,17 +204,17 @@ if fails, the return may be like:
     }
 
 
-Check Whether the Document Exists
+Check Existence of Document
 -----------------------------------
-Query by primary key of document,for example:doi.
+Query by primary key of the document, for example:digit_object_id.
 
 .. code-block:: python
 
     schema_name = "demo"
-    doi = "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c"
-    res = glitter_client.db.get_docs(schema_name, [doi])
+    digit_object_id = "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c"
+    res = glitter_client.db.get_docs(schema_name, [digit_object_id])
 
-return the document:
+We will have a document return as below:
 
 .. code-block:: json
 
@@ -226,8 +226,8 @@ return the document:
             "hits": {
                 "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c": {
                     "_schema_name": "demo",
-                    "doi": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-                    "ipfs_cid": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
+                    "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
+                    "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
                     "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history"
                 }
             }
@@ -235,9 +235,9 @@ return the document:
     }
 
 
-Simple Search without Filter Condition
+Search in the Schema
 -------------------------------------------------
-The search is the standard query for performing a full-text search, including options for fuzzy matching.
+This search is the standard query for performing a full-text search, including options for fuzzy matching.
 
 .. code-block:: python
 
@@ -245,7 +245,7 @@ The search is the standard query for performing a full-text search, including op
     query_field = ["title"]
     res = glitter_client.db.search(schema_name, query_word, query_field)
 
-the hit result like:
+The hit result like:
 
 .. code-block:: json
 
@@ -270,8 +270,8 @@ the hit result like:
                 },
                 "data": {
                     "_schema_name": "demo",
-                    "doi": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-                    "ipfs_cid": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
+                    "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
+                    "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
                     "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history"
                 }
             }],
@@ -286,7 +286,7 @@ App Status
 .. code-block:: python
 
     res = glitter_client.db.app_status()
-    #
+    # return
     {
         "code": 0,
         "message": "ok",
@@ -306,15 +306,15 @@ App Status
 
 Search Transaction
 ----------------------------
-You can search transaction by transaction height, transaction hash.
+You can also search transaction by transaction height and transaction hash.
 
 .. code-block:: python
 
-   # search by transaction hash.
+   # Search by transaction hash.
    res = glitter_client.chain.tx_search(query="tx.hash='ACB6696C22B601D544FE05C8899090B4C1E98EF87636AA07EBCD63548786B561'")
-   # search by transaction height.
+   # Search by transaction height.
    res = glitter_client.chain.tx_search(query="tx.height=460844")
-   # the return like:
+   # return
    {
      "jsonrpc": "2.0",
      "id": -1,
@@ -371,7 +371,7 @@ You can search block by block_search  or fetch the latest block.
    res = glitter_client.chain.block()
    # or
    res = glitter_client.chain.block_search(query="block.height = 17835")
-   # the return like:
+   # return
    {
         "jsonrpc": "2.0",
         "id": -1,
@@ -462,12 +462,12 @@ You can search block by block_search  or fetch the latest block.
 
 Fetch Validator Status
 ----------------------------
-Get validator set at a specified height
+Get validator set with a specific height.
 
 .. code-block:: python
 
    res = glitter_client.admin.validators()
-   # the return like:
+   # return
    {
      "jsonrpc": "2.0",
      "id": -1,
