@@ -1,3 +1,6 @@
+Let's replace the examples with
+AddressBook {user_name, user_id, email_address}.
+
 .. _examples:
 
 ====================
