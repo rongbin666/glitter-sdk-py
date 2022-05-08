@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 """Test the Glitter driver module."""
 
 import unittest
@@ -26,8 +27,8 @@ class GlitterClientUnitTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        url = 'http://sg1.testnet.glitter.link:26659'
-        cls.glitter_client = GlitterClient()
+        url = 'http://sg2.testnet.glitter.link:26659'
+        cls.glitter_client = GlitterClient(url)
 
     def test_create_schema(self):
         # change the create schema with Addressbook {user_id, user_name, email_address}.
@@ -70,7 +71,7 @@ class GlitterClientUnitTest(unittest.TestCase):
     def test_list_schema(self):
         res = self.glitter_client.db.list_schema()
         self.assertEqual(res['code'], 0)
-        self.assertIsNotNone(res['data'].get('demo'))
+        self.assertIsNotNone(res['data'].get(self.schema_name))
         print(res)
 
     def test_put_doc(self):
@@ -137,24 +138,18 @@ class GlitterClientUnitTest(unittest.TestCase):
         self.assertEqual(res['code'], 0)
         print(res)
 
+    def test_tx_search(self):
+        res = self.glitter_client.chain.tx_search(query="tx.hash='EAD611D65C4269A87F6C53E0BBE42381A33763F360A673CC984FC8F54971DBE8'")
+        print(res)
+
     def test_block(self):
         res = self.glitter_client.chain.block()
+        print(res['result']['block']['header']['time'])
+
+    def test_block_search(self):
+        res = self.glitter_client.chain.block_search(query="block.height = 12530")
         print(res)
 
-    def test_block(self):
-        res = self.glitter_client.chain.block_search(query="block.height = 17835")
-        print(res)
-
-    def test_exception?(self):
-        # res = self.glitter_client.db.search("sample", "Content Indexing Network")
-        # print(res)
-        for i in range(1, 100):
-            try:
-                res = self.glitter_client.db.get_schema(self.schema_name)
-                print(res)
-            except Exception as e:
-                print(e)
-                continue
 
 
 if __name__ == '__main__':
