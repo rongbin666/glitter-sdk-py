@@ -83,7 +83,7 @@ After creation success, you will be able to check the detail of the schema info 
 3.Put doc
 ------------------------
 Put_doc is used to insert a record into the schema you created earlier.
-Once success, you will be able to see the details of the transaction `here <http://sg6.testnet.glitter.link:8000/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
+Once success, you will be able to see the details of the transaction `here <https://scan.testnet.glitterprotocol.io/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
 
 .. tabs::
 
