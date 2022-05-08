@@ -2,14 +2,13 @@
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
-"""Set of utilities to support the Glitter driver.
+"""Set of utilities to support various functionalities of the driver.
 
 Attributes:
     ops_map (dict): Mapping between operation strings and classes.
         E.g.: The string ``'CREATE'`` is mapped to
         :class:`~.CreateOperation`.
 """
-
 from urllib.parse import urlparse, urlunparse
 
 DEFAULT_NODE = 'http://sg1.testnet.glitter.link:26659'

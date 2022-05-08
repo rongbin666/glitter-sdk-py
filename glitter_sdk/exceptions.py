@@ -11,7 +11,7 @@ class GlitterClientException(Exception):
 
 class KeypairNotFoundException(GlitterClientException):
     """Raised if an operation cannot proceed because the keypair
-    was not provided.
+    was not given.
     """
 
 
@@ -40,7 +40,7 @@ class TransportError(GlitterClientException):
     """Base exception for transport related errors.
 
     This is mainly for cases where the status code denotes an HTTP error, and
-    for cases with a connection errors.
+    for cases in which there was a connection error.
 
     """
 
@@ -62,7 +62,7 @@ class TransportError(GlitterClientException):
 
 
 class ConnectionError(TransportError):
-    """Exception for errors when connecting, and/or making a request
+    """Exception for errors occurring when connecting, and/or making a request
     to GlitterClient.
 
     """
