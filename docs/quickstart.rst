@@ -83,7 +83,7 @@ After creation success, you will be able to check the detail of the schema info 
 3.Put doc
 ------------------------
 Put_doc is used to insert a record into the schema you created earlier.
-Once success, you will be able to see the details of the transaction `here <http://sg6.testnet.glitter.link:8000/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
+Once success, you will be able to see the details of the transaction `here <https://scan.testnet.glitterprotocol.io/txs/8A62859FD12A9A4D678812D65CE280501595C0B947C150E7182B7F099B213B01>`__.
 
 .. tabs::
 
@@ -99,6 +99,7 @@ Once success, you will be able to see the details of the transaction `here <http
     .. tab:: Output
 
         .. code-block:: python
+
             # tx is the transaction ID.
             {
               "code": 0,
@@ -117,7 +118,7 @@ Performing a full-text search which allows you to search for query_word the inde
         .. code-block:: python
 
             # search doc
-            search_res = client.db.search(index="sample", query_word="Content Indexing Network")
+            search_res = client.db.search(schema_name="sample", query_word="Content Indexing Network")
 
     .. tab:: Output
 
@@ -161,12 +162,12 @@ Below is a list of examples for searching data in rss.
 .. code-block:: python
 
     # Standard query for performing a full-text search.
-    client.db.search(index="rss", query_word="oppo")
+    client.db.search(schema_name="rss", query_word="oppo")
     # Search 'oppo' in the 'title' query_field.
-    client.db.search(index="rss", query_word="oppo", query_field=['title'])
+    client.db.search(schema_name="rss", query_word="oppo", query_field=['title'])
     # Search 'Mobile' in the 'tags' query_field.
-    client.db.search(index="rss", query_word="Mobile", query_field=['tags'])
+    client.db.search(schema_name="rss", query_word="Mobile", query_field=['tags'])
     # Aggregate search result by the "tags" field defined in the schema.
-    client.db.search(index="rss", query_word="oppo", query_field=['title', 'description'], filters=[],
+    client.db.search(schema_name="rss", query_word="oppo", query_field=['title', 'description'], filters=[],
                      aggs_field=["tags"])
 

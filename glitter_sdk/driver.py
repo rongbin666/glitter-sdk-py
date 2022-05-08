@@ -227,10 +227,11 @@ class DataBase(NamespacedDriver):
             query_word(str): word to search in the query_field.
             query_field(:obj: `list` of str): a list of the fields to search and each of them must be indexed. (If it's empty, will search in all the indexed fields.)
             filters(:obj:`list` of :obj:`dic`): filter conditions.
-            aggs_field(:obj: `list` of str): aggregated field which is defined in the schema. (Please be more specific.)
-            order_by(str): order field (ditto)
-            limit(int): limit (ditto)
-            page(int): page number, begin from 1 (ditto)
+            aggs_field(:obj: `list` of str): aggregated field which is defined in the schema. Aggregation a multi-bucket value source based aggregation,
+                     where buckets are dynamically built - one per unique value.
+            order_by(str): adds a sort order.
+            limit(int): sets an upper limit on the response body size that we accept.
+            page(int): page index to start the search from.
 
         Returns:
             :obj:`dic`: a list of documents which have matched query word in their index.
@@ -240,7 +241,7 @@ class DataBase(NamespacedDriver):
         return self.transport.forward_request(
             method='POST',
             path=self.api_prefix + path,
-            json={"index": index, "query": query_word, "filters": filters, "query_field": query_field,
+            json={"index": schema_name, "query": query_word, "filters": filters, "query_field": query_field,
                   "aggs_field": aggs_field, "order_by": order_by, "limit": limit, "page": page},
         )
 
@@ -265,10 +266,11 @@ class Chain(NamespacedDriver):
 
         Args:
             query(str): query words. (e.g: ``tx.height=1000, tx.hash='xxx', update_doc.token='test_token'``)
-            page(int): page number. Defaults to ``1``. (what is the page number?)
-            per_page(int): number of entries per page (max: ``100``).Defaults to ``30``.
-            order_by(str): Order in which transactions are sorted (``asc`` or ``desc``), by height & index (Not sure I understand this). If it's empty, default sorting will be applied (what is default sorting?).
-            prove(bool): Include proofs of the transactions inclusion in the block. Defaults to ``True``. (What is this prove, please be more specific.)
+            page(int): page index to start the search from. Defaults to ``1``.
+            per_page(int): number of entries per page (max: ``100``,defaults to ``30``) .
+            order_by(str): Order in which transactions are sorted (``asc`` or ``desc``), by height & index . If it's empty, default is desc.
+            prove(bool): Include proofs of the transactions inclusion in the block. Defaults to ``True``. (This is an option to the tendermint concept,
+                        indicating whether the return value is included in the block's transaction proof.)
 
         Returns:
             :obj"`json`: transaction info.
@@ -286,13 +288,14 @@ class Chain(NamespacedDriver):
         )
 
     def block_search(self, query, page=1, per_page=30, order_by="desc"):
-        """Search for blocks by BeginBlock and EndBlock events (What is BeginBlock and EndBlock. please be specific.)
+        """Search for blocks by BeginBlock and EndBlock events (BeginBlock and EndBlock is the concept of tendermint.
+         https://docs.tendermint.com/master/spec/abci/apps.html#beginblock)
 
         Args:
             query(str): query condition. (e.g: ``block.height > 1000 AND valset.changed > 0``)
-            page(int): page number (ditto)
+            page(int): page index to start the search from.
             per_page(int): number of entries per page (max: 100)
-            order_by(str): order in which blocks are sorted ("asc" or "desc"), by height. If empty, default sorting will be still applied. (ditto)
+            order_by(str): order in which blocks are sorted ("asc" or "desc"), by height. If empty, default is desc.
         Returns:
             :obj:`json`: block info.
 
@@ -314,7 +317,7 @@ class Chain(NamespacedDriver):
             height(int): height
 
         Returns:
-            :obj:`json`: height to return. If no height is provided, it will fetch the latest block. (Not quite sure I understand this, if height is not set, it will return height? Please provide more details)
+            :obj:`json`: a block of the specified height to return. If no height is provided, it will fetch the latest block.
 
         """
         path = "/chain/block"
@@ -353,7 +356,7 @@ class Chain(NamespacedDriver):
         )
 
     def blockchain(self, min_height=1, max_height=20):
-        """ Get block headers from max(minHeight, earliest available height) to min(maxHeight, current height) (inclusive?).
+        """ Get block headers from max(minHeight, earliest available height) to min(maxHeight, current height) (include the min_height and max_height).
         At most 20 items will be returned. Block headers are returned in descending order(highest first).
 
         Args:
@@ -392,7 +395,7 @@ class Chain(NamespacedDriver):
         """ Retrieve the block header with the specific block hash.
 
         Args:
-            header_hash(str): hash of the header?
+            header_hash(str): hash that represents the block.
         Returns:
         """
         path = "/chain/header_by_hash"
@@ -420,11 +423,11 @@ class Chain(NamespacedDriver):
 
 
 class Admin(NamespacedDriver):
-    """Exposes functionality of the ``'/admin'`` endpoint. (what's this, cannot understand this)
+    """Exposes functionality of the ``'/admin'`` endpoint,witch can manage nodes.
     """
 
     def update_validator(self, pub_key, power=0, headers=None):
-        """ update validator set. (What does update mean?)
+        """ update validator set. a validator is a peer who can vote.
 
         Args:
             pub_key (str): public key
@@ -448,7 +451,7 @@ class Admin(NamespacedDriver):
 
         Args:
             height (str): Fetch validators with the height, if height is not set, return the lastest validator. 
-            page (int): Page number (1-based) (What's the page number)
+            page (int): page index to start the search from. (1-based)
             per_page (int): Number of entries per page (max: 100)
 
         Returns:

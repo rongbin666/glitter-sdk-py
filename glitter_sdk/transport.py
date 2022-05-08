@@ -55,7 +55,7 @@ class Transport:
             method (str): HTTP method name (e.g.: ``'GET'``).
             path (str): Path to be appended to the base url of a node. E.g.:
                 ``'/transactions'``).
-            json (dict): Payload to be sent with the HTTP request. what is this json & payload, should we have a more concrete name?
+            json (dict): Payload to be sent with the HTTP request (the body of http post method).
             params (dict)): Dictionary of URL (query) parameters.
             headers (dict): Optional headers to pass to the request.
 
