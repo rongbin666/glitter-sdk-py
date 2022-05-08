@@ -1,8 +1,3 @@
-# General comments:
-# 1. Please be specific with the Args list as arg(type) (some of them are arg (type)). Use either one should be fine, but
-# make it constant across the repo.
-# 2. Please 
-
 # Copyright GlitterClient GmbH and GlitterClient contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
@@ -51,7 +46,7 @@ class Connection:
 
            Implements exponential backoff.
 
-           If `ConnectionError` occurs, a timestamp equals to now +
+           If `ConnectionError` occurs, a timestamp equal to now +
            the default delay (`BACKOFF_DELAY`) is assigned to the object.
            The timestamp is in UTC. Next time the function is called, it either
            waits till the timestamp is passed or raises `TimeoutError`.
@@ -61,13 +56,13 @@ class Connection:
            as now + the default delay multiplied by two to the power of the
            number of retries.
 
-           If there is a successful request, the backoff timestamp is removed,
+           If a request is successful, the backoff timestamp is removed,
            the retry count is back to zero.
 
         Args:
             method (str): HTTP method (e.g.: ``'GET'``).
             path (str): API endpoint path (e.g.: ``'/transactions'``).
-            json (dict): JSON formatted data to send along with the request.
+            json (dict): JSON data to send along with the request.
             params (dict): Dictionary of URL (query) parameters.
             headers (dict): Optional headers to pass to the request.
             timeout (int): Optional timeout in seconds.
@@ -132,7 +127,7 @@ class Connection:
             json = response.json()
         except ValueError:
             json = None
-        if not (200 <= response.status_code < 300) (can we avoid using magic numbers?):
+        if not (200 <= response.status_code < 300):
             exc_cls = HTTP_EXCEPTIONS.get(response.status_code, TransportError)
             raise exc_cls(response.status_code, text, json, kwargs['url'])
         data = json if json is not None else text

@@ -1,5 +1,3 @@
-# rename to test_driver.py
-
 # Copyright 2022-present glitter, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-"""Test the Glitter driver module."""
-
+"""Test the glitter driver module."""
+import json
 import unittest
 from glitter_sdk import GlitterClient
 
@@ -31,8 +28,6 @@ class GlitterClientUnitTest(unittest.TestCase):
         cls.glitter_client = GlitterClient(url)
 
     def test_create_schema(self):
-        # change the create schema with Addressbook {user_id, user_name, email_address}.
-        # also the index is not specified for ipfs_cid field.
         fields = [
             {
                 "name": "doi",
@@ -58,14 +53,11 @@ class GlitterClientUnitTest(unittest.TestCase):
             }
         ]
         res = self.glitter_client.db.create_schema(self.schema_name, fields)
-        # do not print, please use assert especially for the tx field.
-        # also try to create schema with different type of fields, not only string. 
-        # (This would be optional if it takes too much time) 
+        # self.assertEqual(res['code'], 0)
         print(res)
 
     def test_get_schema(self):
         res = self.glitter_client.db.get_schema(self.schema_name)
-        # Assert.
         print(res)
 
     def test_list_schema(self):
@@ -103,9 +95,7 @@ class GlitterClientUnitTest(unittest.TestCase):
         # self.assertEqual(res["code"], 0)
         # self.assertGreaterEqual(res["data"]["meta"]["page"]["size"], 1)
 
-    def test_search_with_xxx(self):
-        # let's cover everything you have dnoe for this complex search and assert them. If it times long, 
-        # just delete the whole test.
+    def test_search2(self):
         ''' First, put  documents:
             {
                 "doi": "doi_1",
@@ -150,6 +140,14 @@ class GlitterClientUnitTest(unittest.TestCase):
         res = self.glitter_client.chain.block_search(query="block.height = 12530")
         print(res)
 
+    def test_others(self):
+        for i in range(1, 100):
+            try:
+                res = self.glitter_client.db.search("sample", "Content Indexing Network")
+                print(res)
+            except Exception as e:
+                print(e)
+                continue
 
 
 if __name__ == '__main__':
