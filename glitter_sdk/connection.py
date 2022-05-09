@@ -11,12 +11,13 @@ from requests import Session
 from requests.exceptions import ConnectionError
 from requests.exceptions import RequestException
 
-from .exceptions import HTTP_EXCEPTIONS, TransportError,TimeoutError
+from .exceptions import HTTP_EXCEPTIONS, TransportError, TimeoutError
 
 
 BACKOFF_DELAY = 0.5  # seconds
-
 HttpResponse = namedtuple('HttpResponse', ('status_code', 'headers', 'data'))
+HTTP_OK = 200
+HTTP_MULTIPLE = 300
 
 
 class Connection:
@@ -127,7 +128,7 @@ class Connection:
             json = response.json()
         except ValueError:
             json = None
-        if not (200 <= response.status_code < 300):
+        if not (HTTP_OK <= response.status_code < HTTP_MULTIPLE):
             exc_cls = HTTP_EXCEPTIONS.get(response.status_code, TransportError)
             raise exc_cls(response.status_code, text, json, kwargs['url'])
         data = json if json is not None else text

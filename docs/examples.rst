@@ -35,7 +35,7 @@ Create Schema
     schema_name="demo"
     fields = [
         {
-            "name": "digit_object_id",
+            "name": "user_id",
             "type": "string",
             "primary": "true",
             "index": {
@@ -43,16 +43,17 @@ Create Schema
             }
         },
         {
-            "name": "title",
+            "name": "user_name",
             "type": "string",
             "index": {
                 "type": "text"
             }
         },
         {
-            "name": "ipfs_content_id",
+            "name": "email_address",
             "type": "string",
             "index": {
+                "type": "text",
                 "index": "false"
             }
         }
@@ -100,20 +101,20 @@ if success:
                 "index": {
                     "type": "keyword"
                 },
-                "name": "digit_object_id",
+                "name": "user_id",
                 "primary": "true",
                 "type": "string"
             }, {
                 "index": {
                     "type": "text"
                 },
-                "name": "title",
+                "name": "user_name",
                 "type": "string"
             }, {
                 "index": {
                     "index": "false"
                 },
-                "name": "ipfs_content_id",
+                "name": "email_address",
                 "type": "string"
             }],
             "name": "demo",
@@ -146,20 +147,20 @@ List All Schemas
                     "index": {
                         "type": "keyword"
                     },
-                    "name": "digit_object_id",
+                    "name": "user_id",
                     "primary": "true",
                     "type": "string"
                 }, {
                     "index": {
                         "type": "text"
                     },
-                    "name": "title",
+                    "name": "user_name",
                     "type": "string"
                 }, {
                     "index": {
                         "index": "false"
                     },
-                    "name": "ipfs_content_id",
+                    "name": "email_address",
                     "type": "string"
                 }],
                 "name": "demo",
@@ -177,9 +178,9 @@ For example:
 .. code-block:: python
 
     demo_doc = {
-        "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-        "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history",
-        "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte"
+        "user_id": "123",
+        "user_name": "Bob",
+        "email_address": "Bob@gmail.com"
     }
     res = glitter_client.db.put_doc(schema_name, demo_doc)
 
@@ -211,8 +212,8 @@ Query by primary key of the document, for example:digit_object_id.
 .. code-block:: python
 
     schema_name = "demo"
-    digit_object_id = "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c"
-    res = glitter_client.db.get_docs(schema_name, [digit_object_id])
+    user_id = "123"
+    res = glitter_client.db.get_docs(schema_name, [user_id])
 
 We will have a document return as below:
 
@@ -224,11 +225,11 @@ We will have a document return as below:
         "data": {
             "total": 1,
             "hits": {
-                "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c": {
+                "123": {
                     "_schema_name": "demo",
-                    "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-                    "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
-                    "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history"
+                    "user_id": "123",
+                    "user_name": "Bob",
+                    "email_address": "Bob@gmail.com"
                 }
             }
         }
@@ -241,8 +242,8 @@ This search is the standard query for performing a full-text search, including o
 
 .. code-block:: python
 
-    query_word = "British Steel Corporation"
-    query_field = ["title"]
+    query_word = "Bob"
+    query_field = ["user_name"]
     res = glitter_client.db.search(schema_name, query_word, query_field)
 
 The hit result like:
@@ -266,13 +267,13 @@ The hit result like:
             },
             "items": [{
                 "highlight": {
-                    "title": ["<span>British</span> <span>Steel</span> <span>Corporation</span>: probably the biggest turnaround story in UK industrial history"]
+                    "title": ["<span>Bob</span>"]
                 },
                 "data": {
                     "_schema_name": "demo",
-                    "digit_object_id": "10.1002/(sci)1099-1697(199803/04)7:2<65::aid-jsc357>3.0.c",
-                    "ipfs_content_id": "bafybeibxvp6bawmr4u24vuza2vyretip4n7sfvivg7hdbyolxrvbodwlte",
-                    "title": "British Steel Corporation: probably the biggest turnaround story in UK industrial history"
+                    "user_id": "123",
+                    "user_name": "Bob",
+                    "email_address": "Bob@gmail.com"
                 }
             }],
             "facet": {}
@@ -295,10 +296,6 @@ App Status
                 "demo": {
                     "count": 3,
                     "last_update_time": "2022-04-04T08:00:27.617071816Z"
-                },
-                "rss": {
-                    "count": 12385,
-                    "last_update_time": "2022-04-04T12:04:52.704777642Z"
                 }
             }
         }

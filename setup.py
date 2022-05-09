@@ -36,11 +36,13 @@ docs_require = [
 ]
 setup(
     name='glitter_sdk',
-    version='0.1.1',
+    version='0.1.2',
     author='Glitter Protocol',
     author_email='ted@glitterprotocol.io',
     url='https://docs.glitterprotocol.io/',
-    description=u'Glitter Protocol is a blockchain based database and index engine for developing and hosting web3 applications in decentralized storage networks.',
+    description=u'Glitter Protocol is a blockchain based database and index '
+                u'engine for developing and hosting web3 applications in '
+                u'decentralized storage networks.',
     long_description=readme + '\n\n' + changelog,
     python_requires='>=3.5',
     packages=find_packages(),

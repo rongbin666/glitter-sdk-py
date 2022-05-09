@@ -31,7 +31,7 @@ To get a specific version of glitter:
 
 .. code-block:: bash
 
-    $ python3 -m pip install glitter_sdk==0.1.1
+    $ python3 -m pip install glitter_sdk==0.1.2
 
 To upgrade using pip:
 

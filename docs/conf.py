@@ -66,12 +66,9 @@ htmlhelp_basename = 'glitter_python_driverdoc'
 latex_elements = {}
 
 
-
 # -- Options for manual page output ---------------------------------------
 man_pages = [
     ('index', 'glitter_python_driver',
      'Glitter Python Driver Documentation',
      ['ted'], 1)
 ]
-
-

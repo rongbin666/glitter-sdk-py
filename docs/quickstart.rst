@@ -99,6 +99,7 @@ Once success, you will be able to see the details of the transaction `here <http
     .. tab:: Output
 
         .. code-block:: python
+
             # tx is the transaction ID.
             {
               "code": 0,
@@ -117,7 +118,7 @@ Performing a full-text search which allows you to search for query_word the inde
         .. code-block:: python
 
             # search doc
-            search_res = client.db.search(index="sample", query_word="Content Indexing Network")
+            search_res = client.db.search(schema_name="sample", query_word="Content Indexing Network")
 
     .. tab:: Output
 
@@ -161,12 +162,12 @@ Below is a list of examples for searching data in rss.
 .. code-block:: python
 
     # Standard query for performing a full-text search.
-    client.db.search(index="rss", query_word="oppo")
+    client.db.search(schema_name="rss", query_word="oppo")
     # Search 'oppo' in the 'title' query_field.
-    client.db.search(index="rss", query_word="oppo", query_field=['title'])
+    client.db.search(schema_name="rss", query_word="oppo", query_field=['title'])
     # Search 'Mobile' in the 'tags' query_field.
-    client.db.search(index="rss", query_word="Mobile", query_field=['tags'])
+    client.db.search(schema_name="rss", query_word="Mobile", query_field=['tags'])
     # Aggregate search result by the "tags" field defined in the schema.
-    client.db.search(index="rss", query_word="oppo", query_field=['title', 'description'], filters=[],
+    client.db.search(schema_name="rss", query_word="oppo", query_field=['title', 'description'], filters=[],
                      aggs_field=["tags"])
 
