@@ -84,12 +84,14 @@ class GlitterClientUnitTest(unittest.TestCase):
         res = self.glitter_client.db.get_docs(self.schema_name, [primary_key])
         self.assertEqual(res["code"], 0)
         self.assertGreaterEqual(res["data"]["total"], 1)
-        self.assertEqual(res["data"]["hits"][primary_key]["user_id"], primary_key)
+        self.assertEqual(res["data"]["hits"][primary_key]
+                         ["user_id"], primary_key)
 
     def test_search(self):
         query_word = "Bob"
         query_field = ["user_name"]
-        res = self.glitter_client.db.search(self.schema_name, query_word, query_field)
+        res = self.glitter_client.db.search(
+            self.schema_name, query_word, query_field)
         self.assertEqual(res["code"], 0)
         self.assertGreaterEqual(res["data"]["meta"]["page"]["size"], 1)
 
@@ -99,7 +101,9 @@ class GlitterClientUnitTest(unittest.TestCase):
         self.assertEqual(res["code"], 0)
 
     def test_tx_search(self):
-        res = self.glitter_client.chain.tx_search(query="tx.hash='EAD611D65C4269A87F6C53E0BBE42381A33763F360A673CC984FC8F54971DBE8'")
+        res = self.glitter_client.chain.tx_search(
+            query="tx.hash='EAD611D65C4269A87F6C53E0BBE42381A33763F360A673CC984"
+                  "FC8F54971DBE8'")
         self.assertIsNotNone(res['result'])
 
     def test_block(self):
@@ -107,8 +111,10 @@ class GlitterClientUnitTest(unittest.TestCase):
         self.assertIsNotNone(res['result'])
 
     def test_block_search(self):
-        res = self.glitter_client.chain.block_search(query="block.height = 12530")
+        res = self.glitter_client.chain.block_search(
+            query="block.height = 12530")
         self.assertIsNotNone(res['result'])
+
 
 if __name__ == '__main__':
     unittest.main()

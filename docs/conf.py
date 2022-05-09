@@ -10,6 +10,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import glitter_sdk
 import os
 import sys
 import datetime
@@ -20,7 +21,6 @@ project_root = os.path.dirname(cwd)
 sys.path.insert(0, project_root)
 
 # -- Project information -----------------------------------------------------
-import glitter_sdk
 project = 'glitter_sdk'
 author = 'glitter'
 now = datetime.datetime.now()
@@ -66,12 +66,9 @@ htmlhelp_basename = 'glitter_python_driverdoc'
 latex_elements = {}
 
 
-
 # -- Options for manual page output ---------------------------------------
 man_pages = [
     ('index', 'glitter_python_driver',
      'Glitter Python Driver Documentation',
      ['ted'], 1)
 ]
-
-

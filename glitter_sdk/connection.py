@@ -1,8 +1,3 @@
-# General comments:
-# 1. Please be specific with the Args list as arg(type) (some of them are arg (type)). Use either one should be fine, but
-# make it constant across the repo.
-# 2. Please 
-
 # Copyright GlitterClient GmbH and GlitterClient contributors
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
@@ -16,13 +11,14 @@ from requests import Session
 from requests.exceptions import ConnectionError
 from requests.exceptions import RequestException
 
-from .exceptions import HTTP_EXCEPTIONS, TransportError,TimeoutError
+from .exceptions import HTTP_EXCEPTIONS, TransportError, TimeoutError
 
 
 BACKOFF_DELAY = 0.5  # seconds
 HttpResponse = namedtuple('HttpResponse', ('status_code', 'headers', 'data'))
 HTTP_OK = 200
 HTTP_MULTIPLE = 300
+
 
 class Connection:
     """A Connection object to make HTTP requests to a particular node."""
