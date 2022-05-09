@@ -423,7 +423,7 @@ class Chain(NamespacedDriver):
 
 
 class Admin(NamespacedDriver):
-    """Exposes functionality of the ``'/admin'`` endpoint,witch can manage nodes.
+    """Exposes functionality of the ``'/admin'`` endpoint,which can manage nodes.
     """
 
     def update_validator(self, pub_key, power=0, headers=None):
