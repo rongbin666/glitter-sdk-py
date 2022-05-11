@@ -16,7 +16,7 @@ class AbstractPicker(metaclass=ABCMeta):
         :class:`~GlitterClient_driver.connection.Connection` instances.
 
         Args:
-            connections (List): List of
+            connections (list): List of
                 :class:`~GlitterClient_driver.connection.Connection` instances.
 
         """

@@ -7,21 +7,21 @@ from .utils import normalize_nodes
 
 class GlitterClient:
     """A :class: `~driver.GlitterClient` is a python client for Glitter. We can
-      this client to connect, create schema and put & search documents in
+      use this client to connect, create schema and put & search documents in
       Glitter.
 
     """
 
     def __init__(self, *nodes, headers=None, transport_class=Transport,
                  timeout=10):
-        """Initialize a :class:`~driver.GlitterClient` driver instance.
+        """Initializes a :class:`~driver.GlitterClient` driver instance.
 
         Args:
-            *nodes(list of (str or dict)): Glitter nodes to connect to.
-            headers(dict): Optional headers that will be passed with
+            *nodes (list of (str or dict)): Glitter nodes to connect to.
+            headers (dict): Optional headers that will be passed with
              each request.
             transport_class: Optional transport class to use.
-            timeout(int): Optional timeout in seconds that will be passed to
+            timeout (int): Optional timeout in seconds that will be passed to
              each request.
         """
         self._headers = headers
@@ -41,26 +41,27 @@ class GlitterClient:
 
     @property
     def transport(self):
-        """:class:`~driver.Transport`: Object responsible for forwarding requests
-         to a :class:`~driver.Connection` instance (node).
+        """:class:`~driver.Transport`: Object responsible for forwarding
+        requests to a :class:`~driver.Connection` instance (node).
         """
         return self._transport
 
     @property
     def chain(self):
-        """:class:`~driver.Chain`: query block or transaction info.
+        """:class:`~driver.Chain`: Used to query block or transaction info.
         """
         return self._chain
 
     @property
     def admin(self):
-        """:class:`~driver.Admin`: Exposes functionalities of the ``'/admin'`` endpoint.
+        """:class:`~driver.Admin`: Exposes functionalities of the ``'/admin'``
+        endpoint.
         """
         return self._admin
 
     @property
     def db(self):
-        """:class:`~driver.DataBase`: put or search doc from glitter.
+        """:class:`~driver.DataBase`: put or search doc from Glitter.
         """
         return self._db
 
@@ -97,7 +98,7 @@ class NamespacedDriver:
 
 
 class DataBase(NamespacedDriver):
-    """Exposes the data of glitter db.
+    """DB to get access of the data in Glitter.
     """
 
     def create_schema(self, schema_name, fields):
@@ -106,8 +107,10 @@ class DataBase(NamespacedDriver):
         Args:
             - schema_name (str): name of the schema.
             - fields (:obj:`list` of :obj:`dic`): list of schema fields in
-             JSON format. Add more description that index should be specified
-             in every field, o.w., seach cannot be used.
+             JSON format. It's required to specify the type field under the
+             index field. O.w., get_doc functions are not able to be used.
+             For more details, please follow instructions at
+             https://docs.glitterprotocol.io.
 
         Returns:
             - :obj:`dic`: request result.
@@ -133,7 +136,7 @@ class DataBase(NamespacedDriver):
         """
 
         Returns:
-            - :obj:`dic`: list all schema.
+            - :obj:`dic`: list all the schemas.
         """
         path = '/list_schema'
 
@@ -146,9 +149,9 @@ class DataBase(NamespacedDriver):
         """
 
         Args:
-            - schema_name(str): the name of schema.
+            - schema_name (str): name of the schema.
         Returns:
-            - :obj:`dic`: result with document schema.
+            - :obj:`dic`: detailed information of the schema.
         """
         path = '/get_schema'
 
@@ -162,8 +165,8 @@ class DataBase(NamespacedDriver):
         """
 
         Returns:
-            - :obj:`dic`: returns a list of data schemas in Glitter along with
-            the document counts.
+            - :obj:`dic`: a list of data schemas in Glitter along with the
+             record counts.
         """
 
         path = '/app_status'
@@ -174,14 +177,14 @@ class DataBase(NamespacedDriver):
         )
 
     def put_doc(self, schema_name, doc_data):
-        """Put document to glitter.
+        """Put document to Glitter.
 
         Args:
-            - schema_name(str): the name of schema.
-            - doc_data(:obj:`dic`): doc content.
+            - schema_name (str): name of the schema.
+            - doc_data (:obj:`dic`): doc content.
 
         Returns:
-            - :obj:`dic`: result with code,msg,tx.
+            - :obj:`dic`: put doc transaction result with code, msg, tx.
         """
         path = '/put_doc'
         body = {
@@ -195,11 +198,11 @@ class DataBase(NamespacedDriver):
         )
 
     def get_doc(self, schema_name, primary_key):
-        """Get documents from glitter by doc ids.
+        """Get documents from Glitter by the primary key.
 
         Args:
-            schema_name(str): the name of schema.
-            primary_key: main key of document,must be uniq.
+            schema_name (str): name of the schema.
+            primary_key: a unique key of the document.
 
         Returns:
             :obj:`dic`: result with the document struct.
@@ -215,12 +218,12 @@ class DataBase(NamespacedDriver):
         """Get documents from glitter by doc ids.
 
         Args:
-            schema_name(str): name of the schema.
-            primary_key(list): keys of the documents and each of them must be
+            schema_name (str): name of the schema.
+            primary_key (list): keys of the documents and each of them must be
              unique.
 
         Returns:
-            :obj:`dic`: result with the document struct.
+            :obj:`dic`: detailed documents in Glitter.
         """
         path = '/get_docs'
         return self.transport.forward_request(
@@ -231,27 +234,26 @@ class DataBase(NamespacedDriver):
 
     def search(self, schema_name, query_word, query_field=[], filters=[],
                aggs_field=[], order_by="", limit=10, page=1):
-        """ search from Glitter with the other specific information.
+        """Search from Glitter specified by the conditions and filters.
 
         Args:
-            schema_name(str): name of the schema.
-            query_word(str): word to search in the query_field.
-            query_field(:obj: `list` of str): a list of the fields to search
-             and each of them must be indexed. (If it's empty, will search in
-             all the indexed fields.)
-            filters(:obj:`list` of :obj:`dic`): filter conditions.
-            aggs_field(:obj: `list` of str): aggregated field which is defined
+            schema_name (str): name of the schema.
+            query_word (str): word to search in the query_field.
+            query_field (:obj: `list` of str): a list of the fields to search.
+             If it's empty, will search all the fields.
+            filters (:obj:`list` of :obj:`dic`): filter conditions.
+            aggs_field (:obj: `list` of str): aggregated field which is defined
              in the schema. Aggregation a multi-bucket value source based
              aggregation, where buckets are dynamically built - one per unique
              value.
-            order_by(str): adds a sort order.
+            order_by (str): adds a sort order.
             limit(int): sets an upper limit on the response body size that we
              accept.
             page(int): page index to start the search from.
 
         Returns:
             :obj:`dic`: a list of documents which have matched query word in
-            their index.
+            their fields.
         """
 
         path = '/search'
@@ -286,21 +288,20 @@ class Chain(NamespacedDriver):
         """Search for transactions.
 
         Args:
-            query(str): query words. (e.g: ``tx.height=1000, tx.hash='xxx',
+            query (str): query words. (e.g: ``tx.height=1000, tx.hash='xxx',
              update_doc.token='test_token'``)
-            page(int): page index to start the search from. Defaults to ``1``.
-             per_page(int): number of entries per page
+            page (int): page index to start the search from. Defaults to ``1``.
+            per_page (int): number of entries per page
              (max: ``100``,defaults to ``30``) .
-            order_by(str): Order in which transactions are sorted
-             (``asc`` or ``desc``), by height & index . If it's empty,
-             default is desc.
-            prove(bool): Include proofs of the transactions inclusion in the
+            order_by (str): Sort the returned transactions (``asc`` or ``desc``) 
+             by height & index . If it's empty, desc is used as default.
+            prove (bool): Include proofs of the transactions in the
              block. Defaults to ``True``. (This is an option to the tendermint
              concept, indicating whether the return value is included in the
              block's transaction proof.)
 
         Returns:
-            :obj"`json`: transaction info
+            :obj"`json`: transaction info.
         """
 
         path = "/chain/tx_search"
@@ -321,14 +322,14 @@ class Chain(NamespacedDriver):
           https://docs.tendermint.com/master/spec/abci/apps.html#beginblock)
 
         Args:
-            query(str): query condition. (e.g: ``block.height > 1000 AND valset.
-             changed > 0``)
-            page(int): page index to start the search from.
-            per_page(int): number of entries per page (max: 100)
-            order_by(str): order in which blocks are sorted ("asc" or "desc"),
-             by height. If empty, default is desc.
+            query (str): query condition. (e.g: ``block.height > 1000 AND
+             valset.changed > 0``)
+            page (int): page index to start the search from.
+            per_page (int): number of entries per page (max: 100)
+            order_by (str): sort the returned blocks ("asc" or "desc") by
+             height. If it's empty, desc is used as default.
         Returns:
-            :obj:`json`: block info
+            :obj:`json`: block info.
 
         """
         path = "/chain/block_search"
@@ -343,13 +344,13 @@ class Chain(NamespacedDriver):
         )
 
     def block(self, height=None):
-        """ Get block at a specified height
+        """ Get block at a specific height.
 
         Args:
-            height(int): height
+            height (int): height
 
         Returns:
-            :obj:`json`: a block of the specified height to return. If no
+            :obj:`json`: a block with the specific height to return. If no
              height is provided, it will fetch the latest block.
 
         """
@@ -364,10 +365,10 @@ class Chain(NamespacedDriver):
         )
 
     def health(self):
-        """ Get node health.
+        """ Get health of the node.
 
         Returns:
-            Details of the HTTP APIs provided by the Tendermint server, empty
+            Details of the HTTP API provided by the Tendermint server, empty
              result (200 OK) on success, no response - in case of an error.
         """
         path = "/chain/health"
@@ -391,16 +392,16 @@ class Chain(NamespacedDriver):
 
     def blockchain(self, min_height=1, max_height=20):
         """ Get block headers from max(minHeight, earliest available height) to
-         min(maxHeight, current height) (include the min_height and max_height).
+         min(maxHeight, current height) (inclusive).
          At most 20 items will be returned. Block headers are returned in
           descending order(highest first).
 
         Args:
-            min_height(int): Minimum block height to return
-            max_height(bool): Maximum block height to return
+            min_height (int): minimum block height to return.
+            max_height (bool): maximum block height to return.
 
         Returns:
-            Block headers, returned in descending order (highest first).
+            Block headers returned in descending order (highest first).
         """
 
         path = "/chain/blockchain"
@@ -411,10 +412,10 @@ class Chain(NamespacedDriver):
         )
 
     def header(self, height=1):
-        """ Retrieve the block header corresponding to a specified height.
+        """ Retrieve the block header corresponding to a specific height.
 
         Args:
-            height(int): Fetch header with the height, if height is not set,
+            height (int): Fetch header with the height. If height is not set,
              return the lastest header.
 
         Returns:
@@ -432,7 +433,7 @@ class Chain(NamespacedDriver):
         """ Retrieve the block header corresponding to a block hash.
 
         Args:
-            header_hash(str): hash that represents the block.
+            header_hash (str): hash of the block.
         Returns:
         """
         path = "/chain/header_by_hash"
@@ -443,10 +444,10 @@ class Chain(NamespacedDriver):
         )
 
     def block_by_hash(self, *, header_hash):
-        """ Get block by hash
+        """ Get block by hash.
 
         Args:
-            header_hash(str): hash of the block, for example:
+            header_hash (str): hash of the block, for example:
             "0xD70952032620CC4E2737EB8AC379806359D8E0B17B0488F627997A0B043ABDED"
 
         Returns:
@@ -461,11 +462,11 @@ class Chain(NamespacedDriver):
 
 
 class Admin(NamespacedDriver):
-    """Exposes functionality of the ``'/admin'`` endpoint,which can manage nodes.
+    """``'/admin'`` endpoint whi is used to manage the nodes.
     """
 
     def update_validator(self, pub_key, power=0, headers=None):
-        """ update validator set. a validator is a peer who can vote.
+        """Update validator set. A validator is a peer who can vote.
 
         Args:
             pub_key (str): public key
@@ -473,7 +474,7 @@ class Admin(NamespacedDriver):
             headers (dict): http header
 
         Returns:
-            :obj:`dic`:
+            :obj:`dic`: validator information.
 
         """
         path = "/admin/update_validator"
@@ -485,17 +486,17 @@ class Admin(NamespacedDriver):
         )
 
     def validators(self, height=None, page=1, per_page=100):
-        """ Get validator set at a specified height
+        """ Get validator set at a specific height.
 
         Args:
-            height (str): Fetch validators with the height, if height is not
-             set, return the lastest validator.
+            height (str): Fetch validators with the specific height. If height 
+             is not set, return the lastest validator.
             page (int): page index to start the search from. (1-based)
             per_page (int): Number of entries per page (max: 100)
 
         Returns:
-            :obj:`json`: Validators. Validators are sorted first by voting power
-             (descending), then by address (ascending).
+            :obj:`json`: A list of Validators which are sorted first by voting
+             power (descending), then by address (ascending).
 
         """
         path = "/chain/validators"

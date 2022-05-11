@@ -44,8 +44,8 @@ ops_map = {
 
 
 def _normalize_operation(operation):
-    """Normalizes the given operation string. For now, this simply means
-    converting the given string to uppercase, looking it up in
+    """Normalizes the operation string. For now, this simply means
+    converting the string to uppercase, looking it up in
     :attr:`~.ops_map`, and returning the corresponding class if
     present.
 
@@ -53,11 +53,11 @@ def _normalize_operation(operation):
         operation (str): The operation string to convert.
 
     Returns:
-        The class corresponding to the given string,
+        The class corresponding to the string,
         :class:`~.CreateOperation` or :class:`~TransferOperation`.
 
         .. important:: If the :meth:`str.upper` step, or the
-            :attr:`~.ops_map` lookup fails, the given ``operation``
+            :attr:`~.ops_map` lookup fails, the ``operation``
             argument is returned.
 
     """
@@ -79,7 +79,7 @@ def _get_default_port(scheme):
 
 
 def normalize_url(node):
-    """Normalizes the given node url"""
+    """Normalizes the node url."""
     if not node:
         node = DEFAULT_NODE
     elif '://' not in node:
@@ -91,7 +91,7 @@ def normalize_url(node):
 
 
 def normalize_node(node, headers=None):
-    """Normalizes given node as str or dict with headers"""
+    """Normalizes the node as str or dict with headers."""
     headers = {} if headers is None else headers
     if isinstance(node, str):
         url = normalize_url(node)
@@ -103,7 +103,7 @@ def normalize_node(node, headers=None):
 
 
 def normalize_nodes(*nodes, headers=None):
-    """Normalizes given dict or array of driver nodes"""
+    """Normalizes the dict or array of driver nodes."""
     if not nodes:
         nodes = DEFAULT_NODES
 

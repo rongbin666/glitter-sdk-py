@@ -37,7 +37,7 @@ class Transport:
 
     def forward_request(self, method, path=None,
                         json=None, params=None, headers=None):
-        """Makes HTTP requests to the configured nodes.
+        """Performs HTTP requests to the configured nodes.
 
            Retries connection errors
            (e.g. DNS failures, refused connection, etc).
