@@ -4,12 +4,11 @@
 Quickstart
 ====================
 
-Simple introduction to glitter.
+We will use a simple example to introduce how to store and access data in Glitter.
 
 1.Connection
 ---------------
-Connect Glitter network using glitter_sdk package.
-
+Create a Glitter Client from glitter_sdk to store & access data.
 .. code-block:: python
 
      from glitter_sdk import GlitterClient

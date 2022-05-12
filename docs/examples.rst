@@ -11,7 +11,7 @@ we assume you've :doc:`installed the glitter sdk Python package <install>`.
 Getting Started
 ---------------
 
-We begin by creating an object of class GlitterClient:
+We begin by creating a Glitter Client from glitter_sdk to store & access data:
 
 .. code-block:: python
 
@@ -19,7 +19,7 @@ We begin by creating an object of class GlitterClient:
     url = 'http://127.0.0.1:26659'
     glitter_client = GlitterClient(url)
 
-Or use the default root url
+Or use the default root url:
 
 .. code-block:: python
 
@@ -29,6 +29,8 @@ Or use the default root url
 
 Create Schema
 ------------------------
+
+We use JSON formatted schema to describe the data stored in Glitter.
 
 .. code-block:: python
 
@@ -207,7 +209,7 @@ Otherwise, the return may be like:
 
 Check Existence of Document
 -----------------------------------
-Query by primary key of the document, for example:digit_object_id.
+Query by primary key of the document.
 
 .. code-block:: python
 
@@ -459,7 +461,8 @@ You can search block by block_search  or fetch the latest block.
 
 Fetch Validator Status
 ----------------------------
-Get validator set with a specific height.
+Get a set of validators with a specific height. If no height is provided, it will fetch a set of validators which
+corresponds to the latest block.
 
 .. code-block:: python
 
@@ -522,7 +525,7 @@ Get validator set with a specific height.
      }
    }
 
-If no height is provided, it will fetch validator set which corresponds to the latest block.
+This example shows how to get a set of validators at a specific height.
 
 .. code-block:: python
 
