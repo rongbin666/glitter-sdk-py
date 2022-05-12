@@ -30,7 +30,8 @@ Or use the default root url:
 Create Schema
 ------------------------
 
-We use JSON formatted schema to describe the data stored in Glitter.
+We use JSON formatted schema to describe the data stored in Glitter. For more details about the schema syntax,
+please check our developer doc for the `schema <https://docs.glitterprotocol.io/#/development/schema_intro>`__.
 
 .. code-block:: python
 
