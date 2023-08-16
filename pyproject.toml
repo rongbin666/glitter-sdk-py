@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "glitter-sdk"
-version = "0.2.6"
+version = "1.0.0"
 description='Glitter Protocol is a blockchain based database and index engine for developing and hosting web3 applications in decentralized storage networks.'
 authors = ["Glitter Protocol <ted@glitterprotocol.io>"]
 readme = "README.md"

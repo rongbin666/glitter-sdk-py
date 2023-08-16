@@ -158,7 +158,6 @@ class DB:
                 self.key.acc_address,
                 sql,
             )],
-            # fee=Fee(300000, "15stake"),
             memo="sql transaction!",
             fee_denoms=["agli"],
             sign_mode=SignMode.SIGN_MODE_DIRECT,
@@ -167,13 +166,22 @@ class DB:
         return self.lcd.tx.broadcast(tx)
 
     def create_database(self, database):
+        """ CreateDatabase creates a new database with the specified name.
+        """
         sql = "CREATE DATABASE IF NOT EXISTS {} ".format(database)
         return self.sql_exec(sql)
 
     def create_table(self, sql):
+        """
+        create_table creates a new table in the database using the provided SQL DDL statement.
+        table name must be a full path format <database>.<table>
+        """
         return self.sql_exec(sql)
 
     def drop_table(self, database: str, table: str):
+        """
+        drop_table drops (deletes) a table from the specified database.
+        """
         sql = "DROP TABLE IF EXISTS {}.{} ".format(database, table)
         return self.sql_exec(sql)
 
@@ -183,6 +191,7 @@ class DB:
         return self.sql_exec(sql)
 
     def show_create_table(self, database: str, table: str):
+        """ show_create_table show table statement """
         endpoint = "/blockved/glitterchain/index/sql/show_create_table"
         req = ShowCreateTableRequest()
         req.database_name = database
@@ -194,6 +203,9 @@ class DB:
         return response
 
     def list_databases(self, creator: str = None):
+        """
+        list_databases list tables in glitter
+        """
         endpoint = "/blockved/glitterchain/index/sql/list_databases"
         r = requests.get(urljoin(self.lcd.url, endpoint))
         if r.status_code != 200:
@@ -201,7 +213,7 @@ class DB:
 
         result = SqlListDatabasesResponse()
         response = SqlListDatabasesResponse().from_dict(r.json())
-        for  db in response.databases:
+        for db in response.databases:
             if creator and creator != db.creator:
                 continue
             result.databases.append(db)
@@ -209,6 +221,10 @@ class DB:
 
     def list_tables(self, table_keyword: str = None, uid: str = None, database: str = None,
                     page: int = None, page_size: int = None):
+
+        """
+        list_tables list tables in glitter
+        """
         endpoint = "/blockved/glitterchain/index/sql/list_tables"
 
         payload = {}
@@ -228,7 +244,11 @@ class DB:
             raise LCDResponseError(message=str(r.status_code), response=r)
         return SqlListTablesResponse().from_dict(r.json())
 
-    def insert(self, table: str, columns: map):
+    def insert(self, database_name: str, table_name: str, columns: map):
+        """
+        insert inserts a new row into the specified table with the provided column-value pairs.
+        """
+        table = "{}.{}".format(database_name, table_name)
         col_name = list(columns.keys())
         place_hold = []
         vals = []
@@ -242,6 +262,9 @@ class DB:
         return self.sql_exec(stmt)
 
     def batch_insert(self, db: str, table: str, rows: list = None):
+        """
+         batch_insert inserts multiple rows into the specified table using the provided column names and row values.
+        """
         if not rows:
             raise ParamError("rows is empty")
 
@@ -265,6 +288,9 @@ class DB:
         return self.sql_exec(stmt)
 
     def update(self, database_name: str, table_name: str, columns: map = None, where: map = None):
+        """
+         update updates rows in the specified table with the provided column-value pairs based on the specified conditions.
+        """
         if not columns:
             raise ParamError("columns is empty")
 
@@ -277,13 +303,16 @@ class DB:
         where_cond = []
         if where:
             for col_name, col_val in where.items():
-                where_cond.append("{}{}".format(col_name, escape_args(col_val)))
+                where_cond.append("{}={}".format(col_name, escape_args(col_val)))
             sql += " WHERE {}".format(" AND ".join(where_cond))
 
         return self.sql_exec(sql)
 
     def delete(self, database_name: str, table_name: str, where: map, order_by: str = None,
                asc: bool = True, limit: int = WriteLimitRow):
+        """
+         delete deletes rows from the specified table based on the provided conditions.
+        """
         if not where:
             raise ParamError("where is empty")
         if limit > WriteLimitRow:
@@ -305,6 +334,9 @@ class DB:
         return self.sql_exec(sql)
 
     def query(self, sql: str):
+        """
+         query execute a sql query
+        """
         endpoint = "/blockved/glitterchain/index/sql/simple_query"
         req = SqlQueryRequest()
         req.sql = sql
@@ -352,15 +384,28 @@ class DB:
         return self.lcd.tx.broadcast(tx)
 
     def grant_reader(self, to_addr: str, database: str, table: str = None):
+        """
+         grant_reader grants read (select) permissions on the specified table to the specified user.
+        """
         return self.sql_grant(to_addr, GrantReader, database, table)
 
     def grant_writer(self, to_addr: str, database: str, table: str = None):
+        """
+         grant_writer grants write (insert/update/delete) permissions on the specified table to the specified user.
+        """
         return self.sql_grant(to_addr, GrantWriter, database, table)
 
     def grant_admin(self, to_addr: str, database: str, table: str = None):
+        """
+         grant_admin grants ownership permissions on the specified table to the specified user.
+        """
         return self.sql_grant(to_addr, GrantAdmin, database, table)
 
+
     def transfer(self, addr: str, amount: str):
+        """
+        Transfer tokens to an address
+        """
         tx = self.create_and_sign_tx(CreateTxOptions(
             msgs=[MsgSend(
                 self.key.acc_address,
