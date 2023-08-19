@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "glitter-sdk"
-version = "1.0.0"
+version = "0.3.0"
 description='Glitter Protocol is a blockchain based database and index engine for developing and hosting web3 applications in decentralized storage networks.'
 authors = ["Glitter Protocol <ted@glitterprotocol.io>"]
 readme = "README.md"
 packages = [{include = "glitter_sdk"}]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 nest-asyncio = "^1.5.6"
 aiohttp = "^3.8.4"
 bech32 = "^1.2.0"
@@ -22,7 +22,7 @@ betterproto = "2.0.0b4"
 coincurve = "^18.0.0"
 base58 = "^2.1.1"
 pycryptodomex = "^3.17"
-glitter-proto = "^0.1.0"
+glitter-proto = "^0.1.2"
 
 
 [build-system]

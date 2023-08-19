@@ -42,7 +42,7 @@ class SQLExecRequest(Msg):
 
     uid: AccAddress = attr.ib()
     sql: AccAddress = attr.ib()
-    arguments: Arguments = attr.ib(converter=Arguments,default=None)
+    arguments: Arguments = attr.ib(converter=Arguments, default=None)
 
     @classmethod
     def from_proto(cls, proto: SQLExecRequest_pb) -> SQLExecRequest:
@@ -56,7 +56,7 @@ class SQLExecRequest(Msg):
         proto = SQLExecRequest_pb()
         proto.uid = self.uid
         proto.sql = self.sql
-        proto.arguments = [c.to_proto() for c in self.arguments]
+        proto.arguments = [c for c in self.arguments]
         return proto
 
 

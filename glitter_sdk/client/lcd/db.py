@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import requests
 import base64
-import glitter_proto.blockved.glitterchain.index
 from glitter_sdk.key.key import Key, SignOptions
 from glitter_sdk.core.tx import SignMode, Tx
-from glitter_sdk.core.msgs import SQLExecRequest, SQLGrantRequest
+from glitter_sdk.core.msgs import SQLExecRequest, SQLGrantRequest, Arguments, Argument
 from glitter_sdk.util.url import urljoin
-from glitter_sdk.util.parse_sql import escape_args
+from glitter_sdk.util.parse_sql import escape_args, build_batch_insert_statement, build_update_statement, build_delete_statement,to_glitter_arguments
 from glitter_sdk.exceptions import *
 from glitter_sdk.client.lcd.api.tx import CreateTxOptions, SignerOptions
 from glitter_proto.blockved.glitterchain.index import *
+from glitter_proto.blockved.glitterchain.index import ArgumentVarType as ArgumentVarType_pb
 from glitter_sdk.core.bank import MsgMultiSend, MsgSend
 
 __all__ = ["DB", "AsyncDB"]
@@ -152,17 +152,19 @@ class DB:
             ),
         )
 
-    def sql_exec(self, sql):
-        tx = self.create_and_sign_tx(CreateTxOptions(
+    def sql_exec(self, sql, args=None):
+        option = CreateTxOptions(
             msgs=[SQLExecRequest(
                 self.key.acc_address,
                 sql,
+                args
             )],
             memo="sql transaction!",
             fee_denoms=["agli"],
             sign_mode=SignMode.SIGN_MODE_DIRECT,
             gas="auto",
-        ))
+        )
+        tx = self.create_and_sign_tx(option)
         return self.lcd.tx.broadcast(tx)
 
     def create_database(self, database):
@@ -250,42 +252,34 @@ class DB:
         """
         table = "{}.{}".format(database_name, table_name)
         col_name = list(columns.keys())
-        place_hold = []
         vals = []
         for idx in col_name:
-            place_hold.append('%s')
             vals.append(columns[idx])
-        vals = escape_args(vals)
 
-        sql = "insert into {} ({}) values ({})".format(table, ",".join(col_name), ",".join(place_hold))
-        stmt = sql % vals
-        return self.sql_exec(stmt)
+        # vals = escape_args(vals)
+        sql, args = build_batch_insert_statement(table, col_name, [vals])
 
-    def batch_insert(self, db: str, table: str, rows: list = None):
+        return self.sql_exec(sql, args)
+
+    def batch_insert(self, db: str, table: str, rows: List[map] = None):
         """
          batch_insert inserts multiple rows into the specified table using the provided column names and row values.
         """
         if not rows:
             raise ParamError("rows is empty")
 
-        col_names = rows[0].keys()
-        row_len = len(rows)
-        col_len = len(col_names)
-        place_hold = []
+        table = "{}.{}".format(db, table)
+        col_names = list(rows[0].keys())
         vals = []
-        for row_idx in range(0, row_len):
-            place_hold_arr = ['%s'] * col_len
-            place_hold.append("(" + ",".join(place_hold_arr) + ")")
-
         for row in rows:
-            for col_name in col_names:
-                vals.append(row[col_name])
-        vals = escape_args(vals)
+            row_vals = []
+            for key in col_names:
+                row_vals.append(row[key])
 
-        sql = "INSERT INTO {}.{} ({}) VALUES {}".format(db, table, ",".join(col_names),
-                                                        ",".join(place_hold))
-        stmt = sql % vals
-        return self.sql_exec(stmt)
+            vals.append(escape_args(row_vals))
+
+        sql, args = build_batch_insert_statement(table, col_names, vals)
+        return self.sql_exec(sql, args)
 
     def update(self, database_name: str, table_name: str, columns: map = None, where: map = None):
         """
@@ -293,20 +287,8 @@ class DB:
         """
         if not columns:
             raise ParamError("columns is empty")
-
-        update = []
-        for col_name, col_val in columns.items():
-            update.append("{}={}".format(col_name, escape_args(col_val)))
-
-        sql = "UPDATE  {}.{} SET {} ".format(database_name, table_name, ",".join(update))
-
-        where_cond = []
-        if where:
-            for col_name, col_val in where.items():
-                where_cond.append("{}={}".format(col_name, escape_args(col_val)))
-            sql += " WHERE {}".format(" AND ".join(where_cond))
-
-        return self.sql_exec(sql)
+        sql, args = build_update_statement(database_name, table_name, columns, where)
+        return self.sql_exec(sql, args)
 
     def delete(self, database_name: str, table_name: str, where: map, order_by: str = None,
                asc: bool = True, limit: int = WriteLimitRow):
@@ -318,28 +300,20 @@ class DB:
         if limit > WriteLimitRow:
             raise ParamError("too much will to delete")
 
-        sql = "DELETE FROM {}.{} ".format(database_name, table_name)
+        sql, args = build_delete_statement(database_name, table_name, where, order_by, asc, limit)
 
-        where_cond = []
-        if where:
-            for col_name, col_val in where.items():
-                where_cond.append("{}{}".format(col_name, escape_args(col_val)))
-            sql += " WHERE {}".format(" AND ".join(where_cond))
+        return self.sql_exec(sql, args)
 
-        if order_by:
-            sql += " ORDER BY {} {}".format(order_by, "ASC" if asc else "DESC")
-
-        sql += " LIMIT {}".format(limit)
-
-        return self.sql_exec(sql)
-
-    def query(self, sql: str):
+    def query(self, sql: str, args: list = None):
         """
          query execute a sql query
         """
         endpoint = "/blockved/glitterchain/index/sql/simple_query"
         req = SqlQueryRequest()
         req.sql = sql
+        if args is not None:
+            req.arguments = to_glitter_arguments(args)
+        data1 = req.to_json()
         r = requests.post(urljoin(self.lcd.url, endpoint), data=req.to_json(), timeout=10)
         if r.status_code != 200:
             raise LCDResponseError(message=r.text, response=str(r.status_code))
@@ -358,7 +332,7 @@ class DB:
                 elif value_type == ColumnValueType.StringColumn:
                     row[field_name] = col_val.value
                 elif value_type == ColumnValueType.BytesColumn:
-                    row[field_name] = base64.b64decode(col_val.value)
+                    row[field_name] = base64.standard_b64decode(col_val.value)
                 elif value_type == ColumnValueType.InvalidColumn:
                     row[field_name] = col_val.value
             row_set.append(row)

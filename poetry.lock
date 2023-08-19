@@ -100,12 +100,10 @@ files = [
 [package.dependencies]
 aiosignal = ">=1.1.2"
 async-timeout = ">=4.0.0a3,<5.0"
-asynctest = {version = "0.13.0", markers = "python_version < \"3.8\""}
 attrs = ">=17.3.0"
 charset-normalizer = ">=2.0,<4.0"
 frozenlist = ">=1.1.1"
 multidict = ">=4.5,<7.0"
-typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 yarl = ">=1.0,<2.0"
 
 [package.extras]
@@ -148,21 +146,6 @@ python-versions = ">=3.6"
 files = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
-]
-
-[package.dependencies]
-typing-extensions = {version = ">=3.6.5", markers = "python_version < \"3.8\""}
-
-[[package]]
-name = "asynctest"
-version = "0.13.0"
-description = "Enhance the standard unittest package with features for testing asyncio libraries"
-category = "main"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "asynctest-0.13.0-py3-none-any.whl", hash = "sha256:5da6118a7e6d6b54d83a8f7197769d046922a44d2a99c21382f0a6e4fadae676"},
-    {file = "asynctest-0.13.0.tar.gz", hash = "sha256:c27862842d15d83e6a34eb0b2866c323880eb3a75e4485b079ea11748fd77fac"},
 ]
 
 [[package]]
@@ -621,14 +604,14 @@ six = ">=1.8.0"
 
 [[package]]
 name = "glitter-proto"
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "glitter_proto-0.1.0-py3-none-any.whl", hash = "sha256:d87edf072adb5e0c1b9be09168065382817cf518f2d927367ec2b8a214e8b9ff"},
-    {file = "glitter_proto-0.1.0.tar.gz", hash = "sha256:d461139d84a14788342fd2f9bf3fdecf485221ce2658c9aea6a1be3f2a9235cf"},
+    {file = "glitter_proto-0.1.2-py3-none-any.whl", hash = "sha256:04afcf6a9e584e2a0af74b2df3bdba486f61cd0cfc72ff302c10410a092f4b8a"},
+    {file = "glitter_proto-0.1.2.tar.gz", hash = "sha256:674ae623eb14014622812a57f6eaeb316bdb245d2699b2074a9fce706f1bc12c"},
 ]
 
 [[package]]
@@ -907,18 +890,6 @@ files = [
 ]
 
 [[package]]
-name = "typing-extensions"
-version = "4.5.0"
-description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "typing_extensions-4.5.0-py3-none-any.whl", hash = "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"},
-    {file = "typing_extensions-4.5.0.tar.gz", hash = "sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb"},
-]
-
-[[package]]
 name = "wrapt"
 version = "1.15.0"
 description = "Module for decorators, wrappers and monkey patching."
@@ -1090,9 +1061,8 @@ files = [
 [package.dependencies]
 idna = ">=2.0"
 multidict = ">=4.0"
-typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.7"
-content-hash = "3786497f6e8e809cb4ece54274dca3f183e860526437cf48d83c7e08cc59fe03"
+python-versions = "^3.8"
+content-hash = "73d131b3ca2fb6b532dc812c417ec3e139c2d7a6e289a66e0864340afc52f6e2"

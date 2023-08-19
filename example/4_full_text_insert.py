@@ -20,7 +20,7 @@ def insert():
     # insert
     print("=====insert one row:")
     row = {
-        '_id': '7f2b6638ab9ec6bfeb5924bf8e7f17e1',
+        '_id': '7f2b6638ab9ec6bfeb5924bf8e7f17e',
         '_tx_id': '',  # The _tx_id is filled in automatically
         'author': 'J. K. Rowling',
         'extension': 'pdf',
@@ -30,12 +30,13 @@ def insert():
         'language': 'English',
         'publisher': '',
         'series': '',
-        'tags': '',
-        'title': "Harry Potter and the Sorcerer's Stone",
+        'tags': "'",
+        'title': "Harry Potter and the Sorcerers Stone",
         'year': '1999'
     }
     rst = db_client.insert(db_name, ebook_tb_name, row)
     print(rst)
+    return
 
     # batch insert
     print("=====insert multi rows:")
@@ -57,7 +58,7 @@ def insert():
         {
             '_id': '50740153c2bf4a5db99f8b807b4a4b60',
             '_tx_id': '',
-            'author': 'J.K. Rowling, Mary GrandPré',
+            'author': "J.K. Rowling, Mary GrandPré",
             'extension': 'pdf',
             'filesize': 4478241,
             'ipfs_cid': 'bafykbzaceaaxtdouipt5managw2creovvg6pscsjkyqfqtocpaqg3zsmbndtm',

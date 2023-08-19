@@ -22,8 +22,9 @@ def search():
 
     # query all
     print("=====query all:")
-    rst = db_client.query("select * from library_test.ebook limit 10")
+    rst = db_client.query("select * from library_test.ebook where _id=? limit 10",['7f2b6638ab9ec6bfeb5924bf8e7f17e1'])
     print(rst)
+    return
 
     # full text search
     print("=====match query:")

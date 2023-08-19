@@ -2,9 +2,98 @@ import datetime
 from decimal import Decimal
 import re
 import time
-
-from glitter_sdk.exceptions import SQLError
+import base64
+from glitter_sdk.core.msgs import Arguments
+from glitter_proto.blockved.glitterchain.index import Argument as Argument_pb
+from glitter_proto.blockved.glitterchain.index import *
+from glitter_sdk.exceptions import SQLError, ParamError
 from glitter_sdk.util.constants import FIELD_TYPE
+
+
+def to_glitter_arguments(args: List) -> Arguments:
+    if len(args) == 0:
+        raise ValueError("args is empty")
+
+    rst = []
+    for arg in args:
+        if isinstance(arg, int):
+            rst.append(Argument_pb(ArgumentVarType.INT, str(arg)))
+            continue
+        if isinstance(arg, float):
+            rst.append(Argument_pb(ArgumentVarType.FLOAT, str(arg)))
+            continue
+        if isinstance(arg, bool):
+            rst.append(Argument_pb(ArgumentVarType.BOOL, str(arg)))
+            continue
+        if isinstance(arg, str):
+            rst.append(Argument_pb(type=ArgumentVarType.STRING, value=arg))
+            continue
+        if isinstance(arg, bytes):
+            rst.append(Argument_pb(ArgumentVarType.BYTES, base64.standard_b64encode(arg).decode("utf-8")))
+            continue
+        raise ValueError("type is not support")
+
+    return Arguments(rst)
+
+
+def build_batch_insert_statement(table: str, columns: List, row_values: List[List]):
+    sql = "INSERT INTO {} ({}) VALUES ".format(table, ",".join(columns))
+    repeat = len(columns) - 1
+    placeholder = " (? " + ",?" * repeat + ")"
+    placeholder = placeholder + ("," + placeholder) * (len(row_values) - 1)
+    sql = sql + placeholder
+    values = Arguments()
+    for row in row_values:
+        if len(row) != len(columns):
+            raise ValueError("length of value is not correct")
+        value = to_glitter_arguments(row)
+        values.append(value)
+
+    return sql, values
+
+
+def build_update_statement(database_name: str, table_name: str, columns: map = None, where: map = None):
+    """
+     build_update_statement where connected by and.
+    """
+    update = []
+    update_vals = []
+    for col_name, col_val in columns.items():
+        update.append("{}={}".format(col_name, escape_args(col_val)))
+        update_vals.append(col_val)
+    up_val_args = to_glitter_arguments(update_vals)
+
+    where_cond = []
+    where_vals = []
+    if where:
+        for col_name, col_val in where.items():
+            where_cond.append("{}=?".format(col_name))
+            where_vals.append(col_val)
+    where_val_args = to_glitter_arguments(where_vals)
+    val_args = up_val_args.append(where_val_args)
+
+    sql = "UPDATE  {}.{} SET {} WHERE {} ".format(database_name, table_name, ",".join(update), " and ".join(where_cond))
+
+    return sql, val_args
+
+
+def build_delete_statement(self, database_name: str, table_name: str, where: map, order_by: str, asc: bool, limit: int):
+    where_cond = []
+    where_vals = []
+    if where:
+        for col_name, col_val in where.items():
+            where_cond.append("{}=?".format(col_name))
+            where_vals.append(col_val)
+    where_val_args = to_glitter_arguments(where_vals)
+
+    sql = "DELETE FROM {}.{} WHERE {} ".format(database_name, table_name, " AND ".join(where_cond))
+
+    if order_by:
+        sql += " ORDER BY {} {}".format(order_by, "ASC" if asc else "DESC")
+    if limit > 0:
+        sql += " LIMIT {}".format(limit)
+
+    return self.sql_exec(sql, where_val_args)
 
 
 def prepare_sql(sql_tpl: str, args: (list, tuple)):
