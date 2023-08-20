@@ -17,12 +17,12 @@ def search():
 
     #  new client
     db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
-    db_name = "library_test"
-    tb_name = "ebook"
+    db_name = "database_test"
+    tb_name = "book"
 
     # query all
     print("=====query all:")
-    rst = db_client.query("select * from library_test.ebook where _id=? limit 10",['7f2b6638ab9ec6bfeb5924bf8e7f17e1'])
+    rst = db_client.query("select * from database_test.book where _id=? limit 10",['7f2b6638ab9ec6bfeb5924bf8e7f17e1'])
     print(rst)
     return
 
@@ -36,15 +36,16 @@ def search():
     queries.append(MatchQuery("author", author, 0.5))
     query_str = query_string_prepare(queries)
     highlight = highlight_prepare(["author", "title"])
-    sql = "select  {} _score, * from {}.{} where  query_string(%s)  limit 0,10".format(highlight, db_name, tb_name)
-    sql = prepare_sql(sql, [query_str])
-    print(sql)
-    rst = db_client.query(sql)
+    sql = "select  {} _score, * from {}.{} where  query_string(?)  limit 0,10".format(highlight, db_name, tb_name)
+    # sql = prepare_sql(sql, [query_str])
+    # print(sql)
+    rst = db_client.query(sql, [query_str])
     print(rst)
 
     print("=====match phrase query:")
     title = "Potter Harry"  # no result return
     title = "Harry Potter"
+    # about more phrase query https://docs.glitterprotocol.io/#/dev/search_query?id=phrases
     queries = []
     queries.append(MatchPhraseQuery("title", title, 1))
     query_str = query_string_prepare(queries)

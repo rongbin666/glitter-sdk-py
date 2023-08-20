@@ -47,7 +47,6 @@ def to_glitter_arguments(args: List) -> Arguments:
 
     return Arguments(rst)
 
-
 def build_batch_insert_statement(table: str, columns: List, row_values: List[List]):
     """
     Build a SQL statement for batch insertion.
@@ -65,7 +64,7 @@ def build_batch_insert_statement(table: str, columns: List, row_values: List[Lis
     """
     sql = "INSERT INTO {} ({}) VALUES ".format(table, ",".join(columns))
     repeat = len(columns) - 1
-    placeholder = " (? " + ",?" * repeat + ")"
+    placeholder = " (?" + ",?" * repeat + ")"
     placeholder = placeholder + ("," + placeholder) * (len(row_values) - 1)
     sql = sql + placeholder
     values = Arguments()
@@ -78,7 +77,7 @@ def build_batch_insert_statement(table: str, columns: List, row_values: List[Lis
     return sql, values
 
 
-def build_update_statement(database_name: str, table_name: str, columns: map = None, where: map = None):
+def build_update_statement(database_name: str, table_name: str, columns: map = None, where_equal: map = None):
     """
     Build a SQL UPDATE statement where connected by and.
 
@@ -86,7 +85,7 @@ def build_update_statement(database_name: str, table_name: str, columns: map = N
       database_name: Database name
       table_name: Table name
       columns: Dict of column name to new value
-      where: Dict of column name to value for WHERE clause
+      where_equal: Dict of column name to value for WHERE clause
 
     Returns:
       SQL statement string, Arguments protobuf with values
@@ -102,7 +101,7 @@ def build_update_statement(database_name: str, table_name: str, columns: map = N
     where_cond = []
     where_vals = []
     if where:
-        for col_name, col_val in where.items():
+        for col_name, col_val in where_equal.items():
             where_cond.append("{}=?".format(col_name))
             where_vals.append(col_val)
     where_val_args = to_glitter_arguments(where_vals)

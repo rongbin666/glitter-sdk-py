@@ -17,7 +17,7 @@ __all__ = ["DB", "AsyncDB"]
 GrantReader = "reader"
 GrantWriter = "writer"
 GrantAdmin = "admin"
-WriteLimitRow = 50
+WriteLimitRow = 500
 
 
 class AsyncDB:
@@ -376,7 +376,7 @@ class DB:
         sql, args = build_batch_insert_statement(table, col_names, vals)
         return self.sql_exec(sql, args)
 
-    def update(self, database_name: str, table_name: str, columns: map = None, where: map = None):
+    def update(self, database_name: str, table_name: str, columns: map = None, where_equal: map = None):
         """
         Update rows in the specified table with the provided column-value pairs based on the specified conditions.
 
@@ -384,14 +384,14 @@ class DB:
           database_name: The database name
           table_name: The table name
           columns: A dictionary of column names and updated values
-          where: A dictionary of column names and values to match
+          where_equal: A dictionary of column names and values to match
 
         Returns:
           The result of executing the UPDATE statement
         """
         if not columns:
             raise ParamError("columns is empty")
-        sql, args = build_update_statement(database_name, table_name, columns, where)
+        sql, args = build_update_statement(database_name, table_name, columns, where_equal)
         return self.sql_exec(sql, args)
 
     def delete(self, database_name: str, table_name: str, where: map, order_by: str = None,

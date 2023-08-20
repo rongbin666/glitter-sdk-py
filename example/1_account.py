@@ -4,6 +4,7 @@ from glitter_sdk.core import Numeric, Coins
 from glitter_sdk.key.mnemonic import MnemonicKey
 from config import *
 
+# Generate  a new mnemonic and derived addresses.
 def generate():
     m = Mnemonic("english")
     m_str = m.generate(256)

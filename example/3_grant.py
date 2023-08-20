@@ -6,8 +6,8 @@ from config import *
 
 
 def grant_demo():
-    db = "library_test"
-    table = "ebook"
+    db = "database_test"
+    table = "book"
     lcd_client = LCDClient(
         chain_id=chain_id,
         url=url,

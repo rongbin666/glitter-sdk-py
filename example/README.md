@@ -1,7 +1,7 @@
-### chain-id
-glitter_12000-2
-### Mnemonic word
+### Network info
+url: https://docs.glitterprotocol.io/#/connect/network
 
+### Mnemonic word
 lesson police usual earth embrace someone opera season urban produce jealous canyon shrug usage subject cigar imitate hollow route inhale vocal special sun fuel
 
 ### Address

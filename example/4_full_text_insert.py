@@ -12,13 +12,13 @@ def insert():
         gas_adjustment=gas_adjustment)
     #  new client
     db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
-    db_name = "library_test"
-    ebook_tb_name = "ebook"
+    db_name = "database_test"
+    book_tb_name = "book"
 
     # insert
     print("=====insert one row:")
     row = {
-        '_id': '7f2b6638ab9ec6bfeb5924bf8e7f17e',
+        '_id': '7f2b6638ab9ec6bfeb5924bf8e7f17e1',
         '_tx_id': '',  # The _tx_id is filled in automatically
         'author': 'J. K. Rowling',
         'extension': 'pdf',
@@ -32,7 +32,7 @@ def insert():
         'title': "Harry Potter and the Sorcerers Stone",
         'year': '1999'
     }
-    rst = db_client.insert(db_name, ebook_tb_name, row)
+    rst = db_client.insert(db_name, book_tb_name, row)
     print(rst)
     return
 
@@ -68,7 +68,7 @@ def insert():
             'title': 'Harry Potter and the Prisoner of Azkaban',
             'year': '1999'
         }]
-    rst = db_client.batch_insert(db_name, ebook_tb_name, rows)
+    rst = db_client.batch_insert(db_name, book_tb_name, rows)
     print(rst)
 
 

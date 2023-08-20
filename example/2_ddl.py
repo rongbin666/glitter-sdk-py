@@ -16,15 +16,15 @@ def ddl():
 
     # create database
     print("====create database:")
-    db_name = "library_test"
+    db_name = "database_test"
     r = db_client.create_database(db_name)
     print(r)
     time.sleep(10)  # wait for the transaction to chain
 
     # create full_text engine table
     print("=====create full_text engine table:")
-    ebook_tb_name = "ebook"
-    ebook_schema = """
+    book_tb_name = "book"
+    book_schema = """
      CREATE TABLE IF NOT EXISTS {}.{} (
         _id VARCHAR(255) PRIMARY KEY COMMENT 'md5',
         title VARCHAR(2000) COMMENT 'title',
@@ -39,18 +39,18 @@ def ddl():
         year VARCHAR(14) COMMENT 'year',
         filesize INT(11),
         _tx_id VARCHAR(255) COMMENT 'transaction id auto generate',
-        FULLTEXT INDEX(title) WITH PARSER jieba_with_punctuation_stops,
+        FULLTEXT INDEX(title) WITH PARSER standard,
         FULLTEXT INDEX(series) WITH PARSER keyword,
-        FULLTEXT INDEX(author) WITH PARSER jieba_with_punctuation_stops,
+        FULLTEXT INDEX(author) WITH PARSER standard,
         FULLTEXT INDEX(publisher) WITH PARSER standard,
         FULLTEXT INDEX(language) WITH PARSER standard,
         FULLTEXT INDEX(tags) WITH PARSER standard,
         FULLTEXT INDEX(ipfs_cid) WITH PARSER keyword,
         FULLTEXT INDEX(extension) WITH PARSER keyword,
         FULLTEXT INDEX(year) WITH PARSER keyword
-    ) ENGINE = full_text COMMENT 'ebook records';
-    """.format(db_name, ebook_tb_name)
-    rst = db_client.create_table(ebook_schema)
+    ) ENGINE = full_text COMMENT 'book records';
+    """.format(db_name, book_tb_name)
+    rst = db_client.create_table(book_schema)
     print(rst)
 
     # create standard engine table
@@ -85,7 +85,7 @@ def ddl():
 
     # show schema
     print("=====show create table:")
-    rst = db_client.show_create_table(db_name, ebook_tb_name)
+    rst = db_client.show_create_table(db_name, book_tb_name)
     print(rst)
     rst = db_client.show_create_table(db_name, user_tb_name)
     print(rst)

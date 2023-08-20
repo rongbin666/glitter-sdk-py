@@ -14,12 +14,12 @@ def query():
         gas_adjustment=gas_adjustment)
     #  new client
     db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
-    db_name = "library_test"
+    db_name = "database_test"
     tb_name = "user"
 
     # query
     print("=====query:")
-    sql = prepare_sql("select * from {}.{} where author=%s ".format("index3", tb_name),
+    sql = prepare_sql("select * from {}.{} where author=%s ".format(db_name, tb_name),
                       ["0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc"])
     print(sql)
     rst = db_client.query(sql)
