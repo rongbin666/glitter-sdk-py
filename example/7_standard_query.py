@@ -2,18 +2,18 @@ from glitter_sdk.client.lcd import LCDClient
 from glitter_sdk.core import Numeric, Coins
 from glitter_sdk.key.mnemonic import MnemonicKey
 from glitter_sdk.util.parse_sql import prepare_sql
+from config import *
 
 
 def query():
+
     lcd_client = LCDClient(
-        chain_id="glitter_12000-2",
-        # url="https://api.xian.glitter.link",
-        url="http://sg3.testnet.glitter.link:41317/",
-        gas_prices=Coins.from_str("1agli"),
-        gas_adjustment=Numeric.parse(2.5))
-    mk = "lesson police usual earth embrace someone opera season urban produce jealous canyon shrug usage subject cigar imitate hollow route inhale vocal special sun fuel"
+        chain_id=chain_id,
+        url=url,
+        gas_prices=gas_prices,
+        gas_adjustment=gas_adjustment)
     #  new client
-    db_client = lcd_client.db(MnemonicKey(mk, 0, 0))
+    db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
     db_name = "library_test"
     tb_name = "user"
 

@@ -2,7 +2,7 @@ from mnemonic.mnemonic import Mnemonic
 from glitter_sdk.client.lcd import LCDClient
 from glitter_sdk.core import Numeric, Coins
 from glitter_sdk.key.mnemonic import MnemonicKey
-
+from config import *
 
 def generate():
     m = Mnemonic("english")
@@ -15,14 +15,13 @@ def generate():
 
 def transfer():
     client = LCDClient(
-        chain_id="glitter_12000-2",
-        url="https://api.xian.glitter.link",
-        gas_prices=Coins.from_str("1agli"),
-        gas_adjustment=Numeric.parse(2.5))
+        chain_id=chain_id,
+        url=url,
+        gas_prices=gas_prices,
+        gas_adjustment=gas_adjustment)
 
-    mk = "lesson police usual earth embrace someone opera season urban produce jealous canyon shrug usage subject cigar imitate hollow route inhale vocal special sun fuel"
-    from_addr = MnemonicKey(mk, 0, 0)
-    to_addr = MnemonicKey(mk, 0, 1).acc_address
+    from_addr = MnemonicKey(mnemonic_key, 0, 0)
+    to_addr = MnemonicKey(mnemonic_key, 0, 1).acc_address
 
     # transfer
     r = client.db(from_addr).transfer(to_addr, "10agli")
