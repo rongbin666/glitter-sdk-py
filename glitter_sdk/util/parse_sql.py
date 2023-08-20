@@ -11,6 +11,18 @@ from glitter_sdk.util.constants import FIELD_TYPE
 
 
 def to_glitter_arguments(args: List) -> Arguments:
+    """
+    Convert a list of Python arguments to Glitter Arguments protobuf.
+
+    Args:
+    args: List of arguments
+
+    Returns:
+    Arguments protobuf message
+
+    Raises:
+    ValueError if args is empty or contains unsupported types
+    """
     if len(args) == 0:
         raise ValueError("args is empty")
 
@@ -37,6 +49,20 @@ def to_glitter_arguments(args: List) -> Arguments:
 
 
 def build_batch_insert_statement(table: str, columns: List, row_values: List[List]):
+    """
+    Build a SQL statement for batch insertion.
+
+    Args:
+      table: Name of the table
+      columns: List of column names
+      row_values: List of rows, each row is a list of values
+
+    Returns:
+      SQL statement string and Arguments protobuf containing values
+
+    Raises:
+      ValueError if a row does not match columns length
+    """
     sql = "INSERT INTO {} ({}) VALUES ".format(table, ",".join(columns))
     repeat = len(columns) - 1
     placeholder = " (? " + ",?" * repeat + ")"
@@ -54,8 +80,18 @@ def build_batch_insert_statement(table: str, columns: List, row_values: List[Lis
 
 def build_update_statement(database_name: str, table_name: str, columns: map = None, where: map = None):
     """
-     build_update_statement where connected by and.
+    Build a SQL UPDATE statement where connected by and.
+
+    Args:
+      database_name: Database name
+      table_name: Table name
+      columns: Dict of column name to new value
+      where: Dict of column name to value for WHERE clause
+
+    Returns:
+      SQL statement string, Arguments protobuf with values
     """
+
     update = []
     update_vals = []
     for col_name, col_val in columns.items():
@@ -78,6 +114,20 @@ def build_update_statement(database_name: str, table_name: str, columns: map = N
 
 
 def build_delete_statement(self, database_name: str, table_name: str, where: map, order_by: str, asc: bool, limit: int):
+    """Build a DELETE SQL statement.
+
+    Args:
+      database_name: Database name
+      table_name: Table name
+      where: Dict of column name to value for WHERE clause
+      order_by: Column to order by
+      asc: Ascending order if True, otherwise descending
+      limit: Limit number of rows
+
+    Returns:
+      SQL string, Arguments protobuf with values
+    """
+
     where_cond = []
     where_vals = []
     if where:
