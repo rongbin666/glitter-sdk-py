@@ -14,8 +14,6 @@ def insert():
         gas_adjustment=gas_adjustment)
     #  new client
     db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
-    db_name = "database_test"
-    user_tb_name = "user"
 
     # batch insert
     print("=====insert multi rows:")

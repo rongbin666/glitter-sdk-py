@@ -16,14 +16,12 @@ def ddl():
 
     # create database
     print("====create database:")
-    db_name = "database_test"
     r = db_client.create_database(db_name)
     print(r)
     time.sleep(10)  # wait for the transaction to chain
 
     # create full_text engine table
     print("=====create full_text engine table:")
-    book_tb_name = "book"
     book_schema = """
      CREATE TABLE IF NOT EXISTS {}.{} (
         _id VARCHAR(255) PRIMARY KEY COMMENT 'md5',
@@ -55,7 +53,6 @@ def ddl():
 
     # create standard engine table
     print("=====create standard engine table:")
-    user_tb_name = "user"
     user_schema = """
     CREATE TABLE  IF NOT EXISTS {}.{} (
      _id VARCHAR(500) PRIMARY KEY COMMENT 'document id',

@@ -12,8 +12,6 @@ def insert():
         gas_adjustment=gas_adjustment)
     #  new client
     db_client = lcd_client.db(MnemonicKey(mnemonic_key, 0, 0))
-    db_name = "database_test"
-    book_tb_name = "book"
 
     # insert
     print("=====insert one row:")
@@ -33,8 +31,6 @@ def insert():
         'year': '1999'
     }
     rst = db_client.insert(db_name, book_tb_name, row)
-    print(rst)
-    return
 
     # batch insert
     print("=====insert multi rows:")

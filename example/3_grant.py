@@ -6,8 +6,6 @@ from config import *
 
 
 def grant_demo():
-    db = "database_test"
-    table = "book"
     lcd_client = LCDClient(
         chain_id=chain_id,
         url=url,
@@ -20,12 +18,12 @@ def grant_demo():
 
     # grant table writer role to address
     print("=====grant table writer:")
-    rst = db_client.grant_writer(address, db, table)
+    rst = db_client.grant_writer(address, db_name, book_tb_name)
     print(rst)
 
     # grant database admin role to address
     print("=====grant database admin")
-    rst = db_client.grant_admin(address, db)
+    rst = db_client.grant_admin(address, db_name)
     print(rst)
 
 
