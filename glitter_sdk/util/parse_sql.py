@@ -41,7 +41,7 @@ def to_glitter_arguments(args: List) -> Arguments:
             rst.append(Argument_pb(type=ArgumentVarType.STRING, value=arg))
             continue
         if isinstance(arg, bytes):
-            rst.append(Argument_pb(ArgumentVarType.BYTES, base64.standard_b64encode(arg).decode("utf-8")))
+            rst.append(Argument_pb(ArgumentVarType.BYTES, base64.standard_b64encode(arg).decode("ascii")))
             continue
         raise ValueError("type is not support")
 
