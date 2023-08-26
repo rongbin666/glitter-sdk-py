@@ -22,7 +22,7 @@ betterproto = "2.0.0b4"
 coincurve = "^18.0.0"
 base58 = "^2.1.1"
 pycryptodomex = "^3.17"
-glitter-proto = "^0.1.2"
+glitter-proto = "^0.4.0"
 
 
 [build-system]

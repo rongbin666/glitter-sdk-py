@@ -92,24 +92,21 @@ def build_update_statement(database_name: str, table_name: str, columns: map = N
     """
 
     update = []
-    update_vals = []
+    cond_vals = []
     for col_name, col_val in columns.items():
-        update.append("{}={}".format(col_name, escape_args(col_val)))
-        update_vals.append(col_val)
-    up_val_args = to_glitter_arguments(update_vals)
+        update.append("{}=?".format(col_name))
+        cond_vals.append(col_val)
 
     where_cond = []
-    where_vals = []
-    if where:
+    if where_equal:
         for col_name, col_val in where_equal.items():
             where_cond.append("{}=?".format(col_name))
-            where_vals.append(col_val)
-    where_val_args = to_glitter_arguments(where_vals)
-    val_args = up_val_args.append(where_val_args)
+            cond_vals.append(col_val)
+    cond_vals_args = to_glitter_arguments(cond_vals)
 
     sql = "UPDATE  {}.{} SET {} WHERE {} ".format(database_name, table_name, ",".join(update), " and ".join(where_cond))
 
-    return sql, val_args
+    return sql, cond_vals_args
 
 
 def build_delete_statement(self, database_name: str, table_name: str, where: map, order_by: str, asc: bool, limit: int):

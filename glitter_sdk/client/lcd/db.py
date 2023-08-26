@@ -371,7 +371,7 @@ class DB:
             for key in col_names:
                 row_vals.append(row[key])
 
-            vals.append(escape_args(row_vals))
+            vals.append(row_vals)
 
         sql, args = build_batch_insert_statement(table, col_names, vals)
         return self.sql_exec(sql, args)

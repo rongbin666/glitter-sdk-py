@@ -18,8 +18,7 @@ def insert():
     # batch insert
     print("=====insert multi rows:")
     rows = [{
-        '_id': 'mirror_0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc',
-        '_tx_id': '',
+        '_id': 'mirror_0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc1',
         'author': '0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc',
         'avatar_url': 'https://mirror-media.imgix.net/publication-images/fB3kzXkesQJbPVhKlTc86.png?h=592&w=592',
         'display_name': 'Mirror Development',
@@ -42,6 +41,7 @@ def insert():
     }]
     rst = db_client.batch_insert(db_name, user_tb_name, rows)
     print(rst)
+    return
 
     # update
     print("=====update:")

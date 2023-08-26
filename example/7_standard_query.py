@@ -15,10 +15,8 @@ def query():
 
     # query
     print("=====query:")
-    sql = prepare_sql("select * from {}.{} where author=%s ".format(db_name, user_tb_name),
-                      ["0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc"])
-    print(sql)
-    rst = db_client.query(sql)
+    sql = "select * from {}.{} where author=? ".format(db_name, user_tb_name)
+    rst = db_client.query(sql, ["0xbDc4199575A5FA3F19e9888C5d51Bde798F404Cc"])
     print(rst)
 
     sql = "select max(entry_num) from {}.{}".format(db_name, user_tb_name)

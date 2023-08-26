@@ -20,7 +20,8 @@ def search():
 
     # query all
     print("=====query all:")
-    rst = db_client.query("select * from database_test.book limit 10")
+    rst = db_client.query("select * from {}.{} limit 10".format(db_name, book_tb_name))
+    print(rst)
 
     # full text search
     print("=====match query:")

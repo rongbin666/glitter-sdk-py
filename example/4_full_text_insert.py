@@ -31,6 +31,7 @@ def insert():
         'year': '1999'
     }
     rst = db_client.insert(db_name, book_tb_name, row)
+    print(rst)
 
     # batch insert
     print("=====insert multi rows:")
